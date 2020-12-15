@@ -193,11 +193,16 @@ export default {
         },
         delAllSelection() {
 			if (this.idList.length>0){
-				deleteUser({ids: this.idList}).then(res=>{
-					this.$message.error(res.msg);
-					this.query.pageIndex = 1;
-					this.getData();
-				});
+                this.$confirm('确定要删除吗？', '提示', {
+                    type: 'warning'
+                })
+                    .then(() => {
+                        deleteUser({ ids: this.idList }).then(res => {
+                            this.$message.error(res.msg);
+                            this.query.pageIndex = 1;
+                            this.getData();
+                        });
+                    });
 			}
         },
         // 编辑操作
