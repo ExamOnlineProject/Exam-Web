@@ -230,7 +230,8 @@
 		            </el-select>
 		        </el-form-item>
 		        <el-form-item label="题目">
-                    <!-- <quill-editor 
+                    <!-- <quill-editor
+                    这是一小段关于git的测试
                         v-if="add_param.type === '简答'" 
                         ref="myTextEditor" 
                         v-model="add_param.content">
