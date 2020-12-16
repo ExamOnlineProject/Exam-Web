@@ -108,16 +108,20 @@
 		
 		<!-- 批量导入弹出框 -->
 		<el-dialog title="批量添加" :visible.sync="add_batch" width="30%">
-		    <el-form ref="form" :model="form" label-width="70px">
-		        <el-upload
-					class="upload-demo"
-					drag
-					action="https://jsonplaceholder.typicode.com/posts/"
-					multiple>
-					<i class="el-icon-upload"></i>
-					<div class="el-upload__text">将Excel文件拖到此处，或<em>点击上传</em></div>
-		        </el-upload>
-		    </el-form>
+            <el-form ref="form" enctype=“multipart/form-data” :model="form" label-width="70px">
+                <el-upload
+                    class="upload-demo"
+                    drag
+                    action="http://localhost:8088/exam/importUser"
+                    :show-file-list="true"
+                    multiple
+                    :on-success="uploadFileHandler"
+                    :on-error="uploadFileErrorHandler"
+                    :on-progress="uploadFileOnProgressHandler">
+                    <i class="el-icon-upload"></i>
+                    <div class="el-upload__text">将Excel文件拖到此处，或<em>点击上传</em></div>
+                </el-upload>
+            </el-form>
 		    <span slot="footer" class="dialog-footer">
 		        <el-button @click="add_batch = false">取 消</el-button>
 		        <el-button type="primary" @click="saveEdit">确 定</el-button>
@@ -182,7 +186,12 @@ export default {
         },
         // 触发搜索按钮
         handleSearch() {
-            this.getData();
+            selectTeacher(this.query).then(res => {
+                console.log(res);
+                this.tableData = res.list;
+                this.pageTotal = res.pageTotal;
+                this.query.name='';
+            });
         },
 		addTeacher(){
 			insertUser(this.add_param).then(res=>{
@@ -221,7 +230,7 @@ export default {
                 })
                     .then(() => {
                         deleteUser({ ids: this.idList }).then(res => {
-                            this.$message.error(res.msg);
+                            this.$message.success(res.msg);
                             this.query.pageIndex = 1;
                             this.getData();
                         });
@@ -246,6 +255,38 @@ export default {
         handlePageChange(val) {
             this.$set(this.query, 'pageIndex', val);
             this.getData();
+        },
+        //批量导入教师
+        uploadFileHandler(res){
+            console.log(res)
+            setTimeout(() => {
+                this.loading.close();
+                if (res.code != 200) {
+                    this.$message.error(res.msg)
+                }else{
+                    this.$message.success(res.msg);
+                    this.add_batch=false;
+                    this.getData();
+
+                }
+
+            }, 1000);
+        },
+        uploadFileErrorHandler(res){
+            this.$message.error("上传失败,请检查网络连接")
+        },
+        uploadFileOnProgressHandler(res){
+            // this.$message("上传中...")
+            this.fullScreenLoading()
+        },
+        fullScreenLoading() {
+            this.loading = this.$loading({
+                lock: true,
+                text: '文件上传中...',
+                spinner: 'el-icon-loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+            });
+
         }
     }
 };

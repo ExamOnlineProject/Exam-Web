@@ -51,3 +51,13 @@ export const insertUser = query => {
         params: query
     });
 };
+export const importUser = query =>{
+    return request({
+        url: '/importUser',
+        method: 'post',
+        params: query,
+        paramsSerializer: params => {
+            return qs.stringify(params, { indices: false })
+        }
+    })
+};

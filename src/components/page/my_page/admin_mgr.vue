@@ -95,8 +95,8 @@
 				<el-form-item label="姓名">
 				    <el-input v-model="add_param.name"></el-input>
 				</el-form-item>
-				<el-form-item label="电话">
-				    <el-input v-model="add_param.tel"></el-input>
+				<el-form-item label="电话" >
+				    <el-input v-model="add_param.tel" ></el-input>
 				</el-form-item>
 		    </el-form>
 		    <span slot="footer" class="dialog-footer">
@@ -157,7 +157,12 @@ export default {
             });
         },
         handleSearch() {
-            this.getData();
+            selectAdmin(this.query).then(res => {
+                console.log(res);
+                this.tableData = res.list;
+                this.pageTotal = res.pageTotal;
+                this.query.name='';
+            });
         },
 		addAdmin(){
 			insertUser(this.add_param).then(res=>{
@@ -198,7 +203,7 @@ export default {
                 })
                     .then(() => {
                         deleteUser({ ids: this.idList }).then(res => {
-                            this.$message.error(res.msg);
+                            this.$message.success(res.msg);
                             this.query.pageIndex = 1;
                             this.getData();
                         });

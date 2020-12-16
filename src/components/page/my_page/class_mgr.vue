@@ -190,7 +190,7 @@ export default {
                 })
                     .then(() => {
                         deleteClass({ ids: this.idList }).then(res => {
-                            this.$message.error(res.msg);
+                            this.$message.success(res.msg);
                             this.query.pageIndex = 1;
                             this.getData();
                         });

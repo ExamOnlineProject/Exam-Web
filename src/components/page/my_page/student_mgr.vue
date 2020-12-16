@@ -15,7 +15,7 @@
                     class="handle-del mr10"
                     @click="delAllSelection"
                 >批量删除</el-button>
-                <el-select v-model="query.classid" placeholder="班级" @change="query.name = '',getData()" class="handle-input mr10">
+                <el-select v-model="query.classid" placeholder="班级" @change="getData()" class="handle-input mr10">
                     <el-option
                         v-for="item in class_list"
                         :key="item.id"
@@ -24,7 +24,7 @@
                     </el-option>
                 </el-select>
                 <el-input v-model="query.name" placeholder="姓名" class="handle-input mr10"></el-input>
-                <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
+                <el-button v-model="query.classid,query.name" type="primary" icon="el-icon-search" @click="handleSearch" >搜索</el-button>
             </div>
             <el-table
                 :data="tableData"
@@ -104,8 +104,8 @@
         </el-dialog>
 		
 		<!-- 添加弹出框 -->
-		<el-dialog title="添加" :visible.sync="add_editVisible" width="30%">
-		    <el-form ref="form" :model="form" label-width="70px">
+		<el-dialog title="添加" :visible.sync="add_editVisible"  width="30%">
+		    <el-form ref="form" :model="form" :rules="rules" label-width="70px">
 		        <el-form-item label="用户名">
 		            <el-input v-model="add_param.username"></el-input>
 		        </el-form-item>
@@ -115,8 +115,8 @@
 				<el-form-item label="姓名">
 				    <el-input v-model="add_param.name"></el-input>
 				</el-form-item>
-				<el-form-item label="电话">
-				    <el-input v-model="add_param.tel"></el-input>
+				<el-form-item label="电话" prop="phone">
+				    <el-input v-model.number="add_param.tel" @change="this.data()"></el-input>
 				</el-form-item>
 				<el-form-item label="班级">
 				    <el-select v-model="add_param.classid">
@@ -131,25 +131,28 @@
 		    </el-form>
 		    <span slot="footer" class="dialog-footer">
 		        <el-button @click="add_editVisible = false">取 消</el-button>
-		        <el-button type="primary" @click="addUser">确 定</el-button>
+		        <el-button type="primary"  @click="addUser">确 定</el-button>
 		    </span>
 		</el-dialog>
 		
 		<!-- 批量导入弹出框 -->
 		<el-dialog title="批量添加" :visible.sync="add_batch" width="30%">
-		    <el-form ref="form" :model="form" label-width="70px">
+		    <el-form ref="form" enctype=“multipart/form-data” :model="form" label-width="70px">
 		        <el-upload
 					class="upload-demo"
 					drag
-					action="https://jsonplaceholder.typicode.com/posts/"
-					multiple>
+					action="http://localhost:8088/exam/importUser"
+                    :show-file-list="true"
+					multiple
+                    :on-success="uploadFileHandler"
+                    :on-error="uploadFileErrorHandler"
+                    :on-progress="uploadFileOnProgressHandler">
 					<i class="el-icon-upload"></i>
 					<div class="el-upload__text">将Excel文件拖到此处，或<em>点击上传</em></div>
 		        </el-upload>
 		    </el-form>
 		    <span slot="footer" class="dialog-footer">
-		        <el-button @click="add_batch = false">取 消</el-button>
-		        <el-button type="primary" @click="saveEdit">确 定</el-button>
+		        <el-button @click="add_batch = false">完成</el-button>
 		    </span>
 		</el-dialog>
 		
@@ -189,7 +192,27 @@ export default {
             form: {},
             idx: -1,
             id: -1,
-			class_list: ''
+			class_list: '',
+            flag:false,
+            rules: {
+                phone: [{required: true, message:"请输入电话",trigger: 'blur'},
+                    {
+                        required: true,
+                        message: "请输入手机号码",
+                        trigger: "blur"
+                    },
+                    {
+                        validator: function(rule, value, callback) {
+                            if (/^1[34578]\d{9}$/.test(value) == false) {
+                                callback(new Error("手机号格式错误"));
+                            } else {
+                                callback();
+                            }
+                        },
+                        trigger: "blur"
+                    }
+                ],
+            }
         };
     },
     created() {
@@ -206,15 +229,18 @@ export default {
         // 获取 easy-mock 的模拟数据
         getData() {
             selectStudent(this.query).then(res => {
-                console.log(res);
                 this.tableData = res.list;
                 this.pageTotal = res.pageTotal;
             });
         },
         // 触发搜索按钮
         handleSearch() {
-            this.query.classid = '';
-            this.getData();
+            selectStudent(this.query).then(res => {
+                this.tableData = res.list;
+                this.pageTotal = res.pageTotal;
+                this.query.classid='';
+                this.query.name='';
+            });
         },
 		addUser(){
 			insertUser(this.add_param).then(res=>{
@@ -254,7 +280,7 @@ export default {
                 })
                     .then(() => {
                         deleteUser({ ids: this.idList }).then(res => {
-                            this.$message.error(res.msg);
+                            this.$message.success(res.msg);
                             this.query.pageIndex = 1;
                             this.getData();
                         });
@@ -279,7 +305,40 @@ export default {
         handlePageChange(val) {
             this.$set(this.query, 'pageIndex', val);
             this.getData();
+        },
+        //批量导入学生
+        uploadFileHandler(res){
+            console.log(res)
+            setTimeout(() => {
+                this.loading.close();
+                if (res.code != 200) {
+                    this.$message.error(res.msg)
+                }else{
+                    this.$message.success(res.msg);
+                    this.add_batch=false;
+                    this.getData();
+
+                }
+
+            }, 1000);
+        },
+        uploadFileErrorHandler(res){
+            this.$message.error("上传失败,请检查网络连接")
+        },
+        uploadFileOnProgressHandler(res){
+            // this.$message("上传中...")
+            this.fullScreenLoading()
+        },
+        fullScreenLoading() {
+            this.loading = this.$loading({
+                lock: true,
+                text: '文件上传中...',
+                spinner: 'el-icon-loading',
+                background: 'rgba(0, 0, 0, 0.7)'
+            });
+
         }
+
     }
 };
 </script>
