@@ -166,11 +166,11 @@
                         </el-radio-group>
                     </el-form-item>
                 </template>
-                <el-form-item label="难度">
-				    <el-select v-model="form.difficulty">
-		            	<el-option label="1" value="简单"></el-option>
-						<el-option label="2" value="中等"></el-option>
-						<el-option label="3" value="困难"></el-option>
+               <el-form-item label="难度">
+                     <el-select v-model="form.difficulty">
+                     <el-option label="简单" value="简单"></el-option>
+                     <el-option label="中等" value="中等"></el-option>
+                         <el-option label="困难" value="困难"></el-option>
 		            </el-select>
 				</el-form-item>
             </el-form>
@@ -276,9 +276,9 @@
                 </template>
                 <el-form-item label="难度">
 				    <el-select v-model="add_param.difficulty">
-		            	<el-option label="1" value="简单"></el-option>
-						<el-option label="2" value="中等"></el-option>
-						<el-option label="3" value="困难"></el-option>
+		            	<el-option label="简答" value="简单"></el-option>
+						<el-option label="中等" value="中等"></el-option>
+						<el-option label="困难" value="困难"></el-option>
 		            </el-select>
 				</el-form-item>
 		    </el-form>
@@ -298,6 +298,11 @@ import EditorBar from '../../common/myEditor';
 export default {
     name: 'test_mgr',
     data() {
+        sfj:[
+            {value :1,label:"简单"},
+            {value :2,label:"中等"},
+            {value :3,label:"困难"}
+        ]
         return {
             query: {
                 difficulty: '',
@@ -348,7 +353,8 @@ export default {
             this.add_param.content = val
         },
 		showAddDlg() {
-			this.add_editVisible = true
+			this.add_editVisible = true;
+			//row.difficulty=row.difficulty.toString();
 		},
 		showAddsDlg() {
 			this.add_batch = true
