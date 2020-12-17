@@ -30,19 +30,24 @@
                 <el-table-column prop="courseid" label="ID" width="55" align="center"></el-table-column>
                 <el-table-column prop="coursename" label="课程名" align="center"></el-table-column>
                 <el-table-column prop="teachername" label="课程负责人" align="center"></el-table-column>
-                <el-table-column label="操作" width="180" align="center">
+                <el-table-column label="操作" width="300" align="center">
                     <template slot-scope="scope">
-                        <el-button
-                            type="text"
-                            icon="el-icon-edit"
-                            @click="handleEdit(scope.$index, scope.row)"
-                        >编辑</el-button>
-                        <el-button
-                            type="text"
-                            icon="el-icon-delete"
-                            class="red"
-                            @click="handleDelete(scope.$index, scope.row)"
-                        >删除</el-button>
+                        <div>
+                            <router-link :to="{path:'/chapter_mgr',query:{qcourseid:scope.row.courseid,qcoursename:scope.row.coursename}}">
+                                <el-button type="text" icon="el-icon-edit">管理章节</el-button>
+                            </router-link>
+                            <el-button
+                                type="text"
+                                icon="el-icon-edit"
+                                @click="handleEdit(scope.$index, scope.row)"
+                            >编辑</el-button>
+                            <el-button
+                                type="text"
+                                icon="el-icon-delete"
+                                class="red"
+                                @click="handleDelete(scope.$index, scope.row)"
+                            >删除</el-button>
+                        </div>
                     </template>
                 </el-table-column>
             </el-table>
@@ -185,11 +190,17 @@ export default {
         },
         delAllSelection() {
 			if (this.idList.length>0){
-				deleteCourse({ids: this.idList}).then(res=>{
-					this.$message.error(res.msg);
-					this.query.pageIndex = 1;
-					this.getData();
-				});
+                // 二次确认删除
+                this.$confirm('确定要删除吗？', '提示', {
+                    type: 'warning'
+                })
+                    .then(() => {
+                        deleteCourse({ ids: this.idList }).then(res => {
+                            this.$message.success(res.msg);
+                            this.query.pageIndex = 1;
+                            this.getData();
+                        });
+                    })
 			}
         },
         // 编辑操作

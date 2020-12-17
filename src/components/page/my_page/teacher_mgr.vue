@@ -123,8 +123,7 @@
                 </el-upload>
             </el-form>
 		    <span slot="footer" class="dialog-footer">
-		        <el-button @click="add_batch = false">取 消</el-button>
-		        <el-button type="primary" @click="saveEdit">确 定</el-button>
+		        <el-button @click="add_batch = false">完成</el-button>
 		    </span>
 		</el-dialog>
 		
