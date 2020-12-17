@@ -107,7 +107,7 @@
         <el-dialog title="编辑" :visible.sync="editVisible" width="40%">
             <el-form ref="form" :model="form" label-width="100px">
 				<el-form-item label="考试课程">
-				    <el-select v-model="form.courseid" placeholder="课程" disabled class="handle-select mr10">
+				    <el-select v-model="form.coursename" placeholder="课程" class="handle-select mr10">
 				        <el-option
 				        	v-for="item in course_list"
 				        	:key="item.id"
@@ -118,8 +118,8 @@
 				</el-form-item>
                 <el-form-item label="考试模式">
                     <el-select v-model="form.pattern" placeholder="模式" class="handle-select mr10">
-				        <el-option value="1" label="限通信模式"></el-option>
-                        <el-option value="2" label="霸屏模式"></el-option>
+				        <el-option :value="1" label="限通信模式"></el-option>
+                        <el-option :value="2" label="霸屏模式"></el-option>
 				    </el-select>
                 </el-form-item>
                 <el-form-item label="是否开启监控">
@@ -167,7 +167,7 @@
 		    </el-form>
 		    <span slot="footer" class="dialog-footer">
 		        <el-button @click="detailInfo = false">取 消</el-button>
-		        <el-button type="primary" @click="saveEdit">确 定</el-button>
+		        <el-button type="primary" @click="detailInfo=false">确 定</el-button>
 		    </span>
 		</el-dialog>
 
@@ -313,8 +313,9 @@ export default {
         // 编辑操作
         handleEdit(index, row) {
             this.idx = index;
-            this.form = row;
             this.editVisible = true;
+            this.form = row;
+            console.log(row)
         },
 		// 查看试题
 		handleEditInfo(row) {
