@@ -101,14 +101,17 @@ export default {
                 customInsert: (insertImg, result, editor) => {
                     // 图片上传成功，插入图片的回调
                     //result为上传图片成功的时候返回的数据，这里我打印了一下发现后台返回的是data：[{url:"路径的形式"},...]
-                    // console.log(result.data[0].url)
+                    console.log(result)
                     //insertImg()为插入图片的函数
                     //循环插入图片
-                    for (let i = 0; i < result.data.length; i++) {
-                        var url = result.data[i].url;
-                        insertImg(url);
+                    insertImg(result.data)
+                    // for (let i = 0; i < result.data.length; i++) {
+                    //     var url = result.data[i].url;
+                        // insertImg(url);
+                        // imgAdd(url)
+                       // this.editor.imgAdd(url)
                     }
-                }
+
             };
             this.editor.customConfig.onchange = html => {
                 this.info_ = html; // 绑定当前逐渐地值
@@ -116,9 +119,23 @@ export default {
             };
             // 创建富文本编辑器
             this.editor.create();
-        }
-    }
-};
+        },
+    //     $imgAdd(pos, $file){
+    //         // 第一步.将图片上传到服务器.
+    //         var formdata = new FormData();
+    //         formdata.append('image', $file);
+    //         axios({
+    //             url: '/uploadImg',
+    //             method: 'post',
+    //             data: formdata,
+    //             headers: { 'Content-Type': 'multipart/form-data' },
+    //         }).then((url) => {
+    //             // 第二步.将返回的url替换到文本原位置![...](0) -> ![...](url)
+    //             // $vm.$img2Url 详情见本页末尾
+    //             $vm.$img2Url(pos, url);
+    //         })
+    // }
+}};
 </script>
 
 <style lang="css">
