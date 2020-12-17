@@ -104,10 +104,6 @@ export default {
 					        index: 'course_info_mgr',
 					        title: '课程管理'
 					    },
-						{
-						    index: 'chapter_mgr',
-						    title: '章节管理'
-                        },
                         {
 						    index: 'teaching_info_mgr',
 						    title: '授课管理'
