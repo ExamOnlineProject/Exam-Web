@@ -15,14 +15,6 @@
                     class="handle-del mr10"
                     @click="delAllSelection"
                 >批量删除</el-button>
-                <el-select v-model="query.courseid" placeholder="课程" @change="getData" class="handle-select mr10">
-                    <el-option
-                    	v-for="item in course_list"
-                    	:key="item.id"
-                    	:label="item.name"
-                    	:value="item.id">
-                    </el-option>
-                </el-select>
             </div>
             <el-table
                 :data="tableData"
@@ -70,7 +62,7 @@
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
             <el-form ref="form" :model="form" label-width="70px">
 		        <el-form-item label="课程">
-		            <el-select v-model="form.courseid" placeholder="课程">
+		            <el-select v-model="form.courseid" disabled placeholder="课程">
 		                <el-option
 		                	v-for="item in course_list"
 		                	:key="item.id"
@@ -98,7 +90,7 @@
 		<el-dialog title="添加章节" :visible.sync="add_editVisible" width="30%">
 		    <el-form ref="form" :model="form" label-width="70px">
 		        <el-form-item label="课程">
-		            <el-select v-model="add_param.courseid" placeholder="课程">
+		            <el-select v-model="add_param.courseid" disabled placeholder="课程">
 		                <el-option
 		                	v-for="item in course_list"
 		                	:key="item.id"
@@ -155,10 +147,13 @@ export default {
             form: {},
             idx: -1,
             id: -1,
-			course_list: ''
+			course_list: '',
+            coursename:''
         };
     },
     created() {
+        this.query.courseid=this.$route.query.qcourseid;
+        this.add_param.courseid=this.$route.query.qcourseid;
         this.getData();
 		courseOption().then(res=>{ this.course_list = res })
     },
@@ -174,11 +169,11 @@ export default {
                 this.pageTotal = res.pageTotal;
             });
         },
-        // 触发搜索按钮
-        handleSearch() {
-            this.$set(this.query, 'pageIndex', 1);
-            this.getData();
-        },
+        // // 触发搜索按钮
+        // handleSearch() {
+        //     this.$set(this.query, 'pageIndex', 1);
+        //     this.getData();
+        // },
         // 删除操作
         handleDelete(index, row) {
             // 二次确认删除

@@ -25,7 +25,14 @@ router.beforeEach((to, from, next) => {
     document.title = `${to.meta.title} | vue-manage-system`;
     const username = localStorage.getItem('ms_username');
     const role = localStorage.getItem('ms_role');
-    if (to.path === '/student_mgr' || to.path === '/admin_mgr' || to.path === '/teacher_mgr'){
+    // if (to.path === '/chapter_mgr'){
+    //     Vue.prototype.$alert('请通过课程进行管理！','通知', {
+    //         confirmButtonText: '确定'
+    //     });
+    //     this.$router.go(-1);
+    //
+    // }
+        if (to.path === '/student_mgr' || to.path === '/admin_mgr' || to.path === '/teacher_mgr'){
         if(role === '1'){
             next()
         } else {

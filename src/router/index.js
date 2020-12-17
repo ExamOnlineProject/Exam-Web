@@ -60,10 +60,11 @@ export default new Router({
 				    meta: { title: '班级管理' }
                 },
                 {
-				    path: '/chapter_mgr',
-				    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/chapter_mgr.vue'),
-				    meta: { title: '章节管理' }
-				},
+                    path: '/chapter_mgr',
+                    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/chapter_mgr.vue'),
+                    meta: { title: '章节管理' },
+                    hidden:true,
+                },
 				{
 				    path: '/blacklist_mgr',
 				    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/blacklist_mgr.vue'),
