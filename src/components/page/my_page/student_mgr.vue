@@ -115,7 +115,7 @@
 				<el-form-item label="姓名">
 				    <el-input v-model="add_param.name"></el-input>
 				</el-form-item>
-				<el-form-item label="电话" prop="phone">
+				<el-form-item label="电话" prop="rules.phone">
 				    <el-input v-model.number="add_param.tel" @change="this.data()"></el-input>
 				</el-form-item>
 				<el-form-item label="班级">
