@@ -105,6 +105,7 @@ export default {
                     //insertImg()为插入图片的函数
                     //循环插入图片
                     insertImg(result.data)
+                    //test
                     // for (let i = 0; i < result.data.length; i++) {
                     //     var url = result.data[i].url;
                         // insertImg(url);
