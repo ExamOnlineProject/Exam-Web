@@ -16,7 +16,12 @@
                     @click="delAllSelection"
                 >批量删除</el-button>
                 <el-input v-model="query.coursename" placeholder="课程名" class="handle-input mr10"></el-input>
-                <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
+                <el-button
+                    type="primary"
+                    icon="el-icon-search"
+                    @click="handleSearch"
+                    @keyup.enter.native="handleSearch"
+                >搜索</el-button>
             </div>
             <el-table
                 :data="tableData"
@@ -163,7 +168,11 @@ export default {
         // 触发搜索按钮
         handleSearch() {
             this.$set(this.query, 'pageIndex', 1);
-            this.getData();
+            selectCourse(this.query).then(res => {
+                this.query.coursename='';
+                this.tableData = res.list;
+                this.pageTotal = res.pageTotal;
+            });
         },
         // 删除操作
         handleDelete(index, row) {
