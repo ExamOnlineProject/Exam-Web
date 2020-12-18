@@ -230,6 +230,7 @@
 		            </el-select>
 		        </el-form-item>
 		        <el-form-item label="题目">
+
                     <!-- <quill-editor
                     这是一小段关于git的测试
                         v-if="add_param.type === '简答'" 
@@ -241,39 +242,49 @@
                             <editor-bar v-model="add_param.content" :isClear="isClear" @change="change"></editor-bar>
                         </div>
                     </template>
-		            <el-input v-else v-model="add_param.content"></el-input>
+                    <template v-else-if="add_param.type === '判断'">
+                        <div>
+                            <editor-bar v-model="add_param.content" :isClear="isClear" @change="change"></editor-bar>
+                        </div>
+                        <el-form-item label="答案">
+                            <el-radio-group v-model="add_param.answer">
+                                <el-radio label="A">对</el-radio>
+                                <el-radio label="B">错</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                    </template>
+                    <template  v-else-if="add_param.type === '判断'">
+                        <div>
+                            <editor-bar v-model="add_param.content" :isClear="isClear" @change="change"></editor-bar>
+                        </div>
+                    </template>
+                    <template v-else-if="add_param.type === '选择'">
+                        <div>
+                            <editor-bar v-model="add_param.content" :isClear="isClear" @change="change"></editor-bar>
+                        </div>
+                        <el-form-item label="选项A">
+                            <el-input v-model="add_param.option1"></el-input>
+                        </el-form-item>
+                        <el-form-item label="选项B">
+                            <el-input v-model="add_param.option2"></el-input>
+                        </el-form-item>
+                        <el-form-item label="选项C">
+                            <el-input v-model="add_param.option3"></el-input>
+                        </el-form-item>
+                        <el-form-item label="选项D">
+                            <el-input v-model="add_param.option4"></el-input>
+                        </el-form-item>
+                        <el-form-item label="答案">
+                            <el-radio-group v-model="add_param.answer">
+                                <el-radio label="A"></el-radio>
+                                <el-radio label="B"></el-radio>
+                                <el-radio label="C"></el-radio>
+                                <el-radio label="D"></el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                    </template>
+                    <el-input  v-else v-model="add_param.content"></el-input>
 		        </el-form-item>
-                
-                <template v-if="add_param.type === '选择'">
-                    <el-form-item label="选项A">
-                        <el-input v-model="add_param.option1"></el-input>
-                    </el-form-item>
-                    <el-form-item label="选项B">
-                        <el-input v-model="add_param.option2"></el-input>
-                    </el-form-item>
-                    <el-form-item label="选项C">
-                        <el-input v-model="add_param.option3"></el-input>
-                    </el-form-item>
-                    <el-form-item label="选项D">
-                        <el-input v-model="add_param.option4"></el-input>
-                    </el-form-item>
-                    <el-form-item label="答案">
-                        <el-radio-group v-model="add_param.answer">
-                            <el-radio label="A"></el-radio>
-                            <el-radio label="B"></el-radio>
-                            <el-radio label="C"></el-radio>
-                            <el-radio label="D"></el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                </template>
-                <template v-if="add_param.type === '判断'">
-                    <el-form-item label="答案">
-                        <el-radio-group v-model="add_param.answer">
-                            <el-radio label="A">对</el-radio>
-                            <el-radio label="B">错</el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                </template>
                 <el-form-item label="难度">
 				    <el-select v-model="add_param.difficulty">
 		            	<el-option label="简答" value="简单"></el-option>
