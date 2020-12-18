@@ -73,20 +73,20 @@
 
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
-            <el-form ref="form" :model="form" label-width="70px">
-		        <el-form-item label="用户名">
+            <el-form ref="form" :model="form" :rules="rules" label-width="70px">
+		        <el-form-item label="用户名" prop="username">
 		            <el-input v-model="form.username"></el-input>
 		        </el-form-item>
-				<el-form-item label="密码">
+				<el-form-item label="密码" prop="password">
 				    <el-input v-model="form.password"></el-input>
 				</el-form-item>
-				<el-form-item label="姓名">
+				<el-form-item label="姓名" prop="name">
 				    <el-input v-model="form.name"></el-input>
 				</el-form-item>
-				<el-form-item label="电话">
-				    <el-input v-model="form.tel"></el-input>
+				<el-form-item label="电话" >
+				    <el-input v-model="form.tel" @input="check(form.tel)"></el-input>
 				</el-form-item>
-				<el-form-item label="班级">
+				<el-form-item label="班级" prop="classChoice">
 				    <el-select v-model="form.classid">
 				    	<el-option
 				    		v-for="item in class_list"
@@ -99,26 +99,26 @@
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="editVisible = false">取 消</el-button>
-                <el-button type="primary" @click="saveEdit">确 定</el-button>
+                <el-button type="primary" @click="saveEdit" >确 定</el-button>
             </span>
         </el-dialog>
 		
 		<!-- 添加弹出框 -->
 		<el-dialog title="添加" :visible.sync="add_editVisible"  width="30%">
 		    <el-form ref="form" :model="form" :rules="rules" label-width="70px">
-		        <el-form-item label="用户名">
+		        <el-form-item label="用户名" prop="username">
 		            <el-input v-model="add_param.username"></el-input>
 		        </el-form-item>
-				<el-form-item label="密码">
+				<el-form-item label="密码" prop="password">
 				    <el-input v-model="add_param.password"></el-input>
 				</el-form-item>
-				<el-form-item label="姓名">
+				<el-form-item label="姓名" prop="name">
 				    <el-input v-model="add_param.name"></el-input>
 				</el-form-item>
-				<el-form-item label="电话" prop="rules.phone">
-				    <el-input v-model.number="add_param.tel" @change="this.data()"></el-input>
+				<el-form-item label="电话">
+				    <el-input v-model="add_param.tel" @input="check(add_param.tel)" :maxlength="11" @change="this.data()"></el-input>
 				</el-form-item>
-				<el-form-item label="班级">
+				<el-form-item label="班级" prop="classChoice">
 				    <el-select v-model="add_param.classid">
 						<el-option
 							v-for="item in class_list"
@@ -131,7 +131,7 @@
 		    </el-form>
 		    <span slot="footer" class="dialog-footer">
 		        <el-button @click="add_editVisible = false">取 消</el-button>
-		        <el-button type="primary"  @click="addUser">确 定</el-button>
+		        <el-button type="primary"  @click="addUser" :disabled="flag">确 定</el-button>
 		    </span>
 		</el-dialog>
 		
@@ -165,6 +165,7 @@ import { insertUser } from '../../../api/UserAPI';
 import { deleteUser } from '../../../api/UserAPI';
 import { updateUser } from '../../../api/UserAPI';
 import { getClassList } from '../../../api/index';
+import { messages } from '@/components/common/i18n';
 export default {
     name: 'user',
     data() {
@@ -193,25 +194,12 @@ export default {
             idx: -1,
             id: -1,
 			class_list: '',
-            flag:false,
+            flag:true,
             rules: {
-                phone: [{required: true, message:"请输入电话",trigger: 'blur'},
-                    {
-                        required: true,
-                        message: "请输入手机号码",
-                        trigger: "blur"
-                    },
-                    {
-                        validator: function(rule, value, callback) {
-                            if (/^1[34578]\d{9}$/.test(value) == false) {
-                                callback(new Error("手机号格式错误"));
-                            } else {
-                                callback();
-                            }
-                        },
-                        trigger: "blur"
-                    }
-                ],
+                username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+                password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+                name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+                classChoice: [{ required: true, message: '请选择班级', trigger: 'blur' }],
             }
         };
     },
@@ -220,6 +208,17 @@ export default {
 		getClassList().then(res=>{ this.class_list = res })
     },
     methods: {
+        check(msg){
+            let isTel = /^1[34578]\d{9}$/.test(msg);
+            // console.log(typeof(msg));
+            // console.log(msg.toString());
+            // console.log(/^1[34578]\d{9}$/.test(msg))
+            if (isTel) {
+                this.flag = false;
+            }else {
+                this.flag=true;
+            }
+        },
 		showAddDlg() {
 			this.add_editVisible = true
 		},
@@ -243,11 +242,19 @@ export default {
             });
         },
 		addUser(){
-			insertUser(this.add_param).then(res=>{
-				this.getData();
-				this.add_editVisible = false;
-				this.$message.success('添加成功');
-			})
+           // if(this.add_param.classid!=''&& this.add_param.name!=''&& this.add_param.password!='' &&this.add_param.username!=''){
+            this.$refs.form.validate(valid => {
+               if (valid){
+                   insertUser(this.add_param).then(res=>{
+                       this.getData();
+                       this.add_editVisible = false;
+                       this.$message.success('添加成功');
+                   })
+               }else{
+                   this.$message.error("请正确填写信息");
+                   return false;
+               }
+            })
 		},
         // 删除操作
         handleDelete(index, row) {
@@ -295,11 +302,15 @@ export default {
         },
         // 保存编辑
         saveEdit() {
-            this.editVisible = false;
-			updateUser(this.form).then(res=>{
-				this.$message.success(`修改成功`);
-				this.getData();
-			})
+            if(this.form.classid!=''&& this.form.name!=''&& this.form.password!='' &&this.form.username!='' &&/^1[34578]\d{9}$/.test(this.form.tel)) {
+                this.editVisible = false;
+                updateUser(this.form).then(res => {
+                    this.$message.success(`修改成功`);
+                    this.getData();
+                })
+            }else {
+                alert("请完善信息");
+            }
         },
         // 分页导航
         handlePageChange(val) {
