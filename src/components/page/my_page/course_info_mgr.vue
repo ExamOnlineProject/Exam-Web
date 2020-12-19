@@ -16,7 +16,12 @@
                     @click="delAllSelection"
                 >批量删除</el-button>
                 <el-input v-model="query.coursename" placeholder="课程名" class="handle-input mr10"></el-input>
-                <el-button type="primary" icon="el-icon-search" @click="handleSearch">搜索</el-button>
+                <el-button
+                    type="primary"
+                    icon="el-icon-search"
+                    @click="handleSearch"
+                    @keyup.enter.native="handleSearch"
+                >搜索</el-button>
             </div>
             <el-table
                 :data="tableData"
@@ -66,8 +71,8 @@
 
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
-            <el-form ref="form" :model="form" label-width="90px">
-		        <el-form-item label="课程名">
+            <el-form ref="form" :model="form" label-width="90px" :rules="rules">
+		        <el-form-item label="课程名" prop="courseName">
 		            <el-input v-model="form.coursename"></el-input>
 		        </el-form-item>
 		        <el-form-item label="课程负责人">
@@ -89,8 +94,8 @@
 		
 		<!-- 添加弹出框 -->
 		<el-dialog title="添加课程" :visible.sync="add_editVisible" width="30%">
-		    <el-form ref="form" :model="form" label-width="100px">
-				<el-form-item label="课程名">
+		    <el-form ref="form" :model="form" label-width="100px" :rules="rules">
+				<el-form-item label="课程名" prop="courseName">
 				    <el-input v-model="add_param.coursename"></el-input>
 				</el-form-item>
                 <el-form-item label="课程负责人">
@@ -141,7 +146,10 @@ export default {
             idx: -1,
             id: -1,
             course_list: '',
-            teacher_list: ''
+            teacher_list: '',
+            rules: {
+                courseName: [{ required: true, message: '请输入课程名', trigger: 'blur' }],
+            }
         };
     },
     created() {
@@ -163,7 +171,11 @@ export default {
         // 触发搜索按钮
         handleSearch() {
             this.$set(this.query, 'pageIndex', 1);
-            this.getData();
+            selectCourse(this.query).then(res => {
+                this.query.coursename='';
+                this.tableData = res.list;
+                this.pageTotal = res.pageTotal;
+            });
         },
         // 删除操作
         handleDelete(index, row) {
@@ -211,18 +223,32 @@ export default {
         },
         // 保存编辑
 		saveEdit() {
-		    updateCourse(this.form).then(res=>{
-				this.$message.success(`修改成功`);
-				this.editVisible = false;
-				this.getData();
-			})
+            this.$refs.form.validate(valid => {
+                if (valid) {
+                    updateCourse(this.form).then(res => {
+                        this.$message.success(`修改成功`);
+                        this.editVisible = false;
+                        this.getData();
+                    })
+                }else{
+                    this.$message.error("请正确填写信息");
+                    return false;
+                }
+            })
 		},
         saveInsert() {
-            insertCourse(this.add_param).then(res=>{
-				this.$message.success(`新增成功`);
-				this.add_editVisible = false;
-				this.getData();
-			}) 
+            this.$refs.form.validate(valid => {
+                if (valid) {
+                    insertCourse(this.add_param).then(res => {
+                        this.$message.success(`新增成功`);
+                        this.add_editVisible = false;
+                        this.getData();
+                    })
+                }else{
+                    this.$message.error("请正确填写信息");
+                    return false;
+                }
+            })
         },
         // 分页导航
         handlePageChange(val) {

@@ -64,18 +64,18 @@
 
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
-            <el-form ref="form" :model="form" label-width="70px">
-		        <el-form-item label="用户名">
+            <el-form ref="form" :model="form" label-width="70px" :rules="rules">
+		        <el-form-item label="用户名" prop="username">
 		            <el-input v-model="form.username"></el-input>
 		        </el-form-item>
-				<el-form-item label="密码">
+				<el-form-item label="密码" prop="password">
 				    <el-input v-model="form.password"></el-input>
 				</el-form-item>
-				<el-form-item label="姓名">
+				<el-form-item label="姓名" prop="name">
 				    <el-input v-model="form.name"></el-input>
 				</el-form-item>
 				<el-form-item label="电话">
-				    <el-input v-model="form.tel"></el-input>
+				    <el-input v-model="form.tel" @input="check(form.tel)"></el-input>
 				</el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -86,23 +86,23 @@
 		
 		<!-- 添加弹出框 -->
 		<el-dialog title="添加" :visible.sync="add_editVisible" width="30%">
-		    <el-form ref="form" :model="form" label-width="70px">
-		        <el-form-item label="用户名">
+		    <el-form ref="form" :model="form" label-width="70px" :rules="rules">
+		        <el-form-item label="用户名" prop="username">
 		            <el-input v-model="add_param.username"></el-input>
 		        </el-form-item>
-				<el-form-item label="密码">
+				<el-form-item label="密码" prop="password">
 				    <el-input v-model="add_param.password"></el-input>
 				</el-form-item>
-				<el-form-item label="姓名">
+				<el-form-item label="姓名" prop="name">
 				    <el-input v-model="add_param.name"></el-input>
 				</el-form-item>
 				<el-form-item label="电话">
-				    <el-input v-model="add_param.tel"></el-input>
+				    <el-input v-model="add_param.tel" @input="check(add_param.tel)"></el-input>
 				</el-form-item>
 		    </el-form>
 		    <span slot="footer" class="dialog-footer">
 		        <el-button @click="add_editVisible = false">取 消</el-button>
-		        <el-button type="primary" @click="addTeacher">确 定</el-button>
+		        <el-button type="primary" @click="addTeacher" :disabled="flag">确 定</el-button>
 		    </span>
 		</el-dialog>
 		
@@ -161,7 +161,13 @@ export default {
             form: {},
             idx: -1,
             id: -1,
-			class_list: ''
+			class_list: '',
+            flag:true,
+            rules: {
+                username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+                password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+                name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+            }
         };
     },
     created() {
@@ -169,8 +175,17 @@ export default {
 		getClassList().then(res=>{ this.class_list = res })
     },
     methods: {
+        check(msg){
+            let isTel = /^1[34578]\d{9}$/.test(msg);
+            if (isTel) {
+                this.flag = false;
+            }else {
+                this.flag=true;
+            }
+        },
 		showAddDlg() {
 			this.add_editVisible = true
+            this.flag=false;
 		},
 		showAddsDlg() {
 			this.add_batch = true
@@ -193,11 +208,19 @@ export default {
             });
         },
 		addTeacher(){
-			insertUser(this.add_param).then(res=>{
-				this.getData();
-				this.add_editVisible = false;
-				this.$message.success('添加成功');
-			})
+            this.$refs.form.validate(valid => {
+                if (valid){
+                    insertUser(this.add_param).then(res=>{
+                        this.getData();
+                        this.add_editVisible = false;
+                        this.$message.success('添加成功');
+                    })
+                }else{
+                    this.$message.error("请正确填写信息");
+                    return false;
+                }
+            })
+
 		},
         // 删除操作
         handleDelete(index, row) {
@@ -244,11 +267,20 @@ export default {
         },
         // 保存编辑
         saveEdit() {
-            this.editVisible = false;
-			updateUser(this.form).then(res=>{
-				this.$message.success(`修改第 ${this.idx + 1} 行成功`);
-				this.getData();
-			})
+            this.$refs.form.validate(valid => {
+                if (valid){
+                    this.editVisible = false;
+                    updateUser(this.form).then(res=>{
+                        this.$message.success(`修改第 ${this.idx + 1} 行成功`);
+                        this.getData();
+                    })
+                }else{
+                    this.$message.error("请正确填写信息");
+                    return false;
+                }
+            })
+
+
         },
         // 分页导航
         handlePageChange(val) {
