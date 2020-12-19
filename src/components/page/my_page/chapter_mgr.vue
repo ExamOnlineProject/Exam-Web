@@ -60,8 +60,8 @@
 
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
-            <el-form ref="form" :model="form" label-width="70px">
-		        <el-form-item label="课程">
+            <el-form ref="form" :model="form" label-width="70px" :rules="rules">
+		        <el-form-item label="课程" prop="course">
 		            <el-select v-model="form.courseid" disabled placeholder="课程">
 		                <el-option
 		                	v-for="item in course_list"
@@ -71,12 +71,12 @@
 		                </el-option>
 		            </el-select>
 		        </el-form-item>
-		        <el-form-item label="章节">
+		        <el-form-item label="章节" prop="chapter">
 		            <el-select v-model="form.index" placeholder="章节">
 		                <el-option v-for="i in 15" :key="i" :label="i" :value="i"></el-option>
 		            </el-select>
 		        </el-form-item>
-				<el-form-item label="章节名">
+				<el-form-item label="章节名" prop="chapterName">
 				    <el-input v-model="form.chaptername"></el-input>
 				</el-form-item>
             </el-form>
@@ -88,8 +88,8 @@
 		
 		<!-- 添加弹出框 -->
 		<el-dialog title="添加章节" :visible.sync="add_editVisible" width="30%">
-		    <el-form ref="form" :model="form" label-width="70px">
-		        <el-form-item label="课程">
+		    <el-form ref="form" :model="form" label-width="70px" :rules="rules">
+		        <el-form-item label="课程" prop="course">
 		            <el-select v-model="add_param.courseid" disabled placeholder="课程">
 		                <el-option
 		                	v-for="item in course_list"
@@ -99,12 +99,12 @@
 		                </el-option>
 		            </el-select>
 		        </el-form-item>
-		        <el-form-item label="章节">
+		        <el-form-item label="章节" prop="chapter">
 		            <el-select v-model="add_param.index" placeholder="章节">
 		                <el-option v-for="i in 15" :key="i" :label="i" :value="i"></el-option>
 		            </el-select>
 		        </el-form-item>
-				<el-form-item label="章节名">
+				<el-form-item label="章节名" prop="chapterName">
 				    <el-input v-model="add_param.chaptername"></el-input>
 				</el-form-item>
 		    </el-form>
@@ -148,7 +148,12 @@ export default {
             idx: -1,
             id: -1,
 			course_list: '',
-            coursename:''
+            coursename:'',
+            rules: {
+                course: [{ required: true, message: '请选择课程', trigger: 'blur' }],
+                chapter: [{ required: true, message: '请选择章节', trigger: 'blur' }],
+                chapterName: [{ required: true, message: '请输入章节名', trigger: 'blur' }],
+            }
         };
     },
     created() {
@@ -214,18 +219,32 @@ export default {
         },
         // 保存编辑
 		saveEdit() {
-		    updateChapter(this.form).then(res=>{
-				this.$message.success(`修改成功`);
-				this.editVisible = false;
-				this.getData();
-			})
+            this.$refs.form.validate(valid => {
+                if (valid) {
+                    updateChapter(this.form).then(res => {
+                        this.$message.success(`修改成功`);
+                        this.editVisible = false;
+                        this.getData();
+                    })
+                } else {
+                    this.$message.error("请完善信息");
+                    return false;
+                }
+            })
 		},
         saveInsert() {
-            insertChapter(this.add_param).then(res=>{
-				this.$message.success(`新增成功`);
-				this.add_editVisible = false;
-				this.getData();
-			}) 
+            this.$refs.form.validate(valid => {
+                if (valid) {
+                    insertChapter(this.add_param).then(res => {
+                        this.$message.success(`新增成功`);
+                        this.add_editVisible = false;
+                        this.getData();
+                    })
+                }else {
+                    this.$message.error("请完善信息");
+                    return false;
+                }
+            })
         },
         // 分页导航
         handlePageChange(val) {

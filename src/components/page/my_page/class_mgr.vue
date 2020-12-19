@@ -158,7 +158,11 @@ export default {
         // 触发搜索按钮
         handleSearch() {
             this.$set(this.query, 'pageIndex', 1);
-            this.getData();
+            selectClass(this.query).then(res => {
+                this.query.classname='';
+                this.tableData = res.list;
+                this.pageTotal = res.pageTotal;
+            });
         },
         // 删除操作
         handleDelete(index, row) {

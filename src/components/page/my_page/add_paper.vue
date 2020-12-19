@@ -131,12 +131,12 @@
 				</el-form-item>
 				<el-form-item label="组卷方式">
 				    <el-select v-model="strategy.mode">
-				    	<el-option label="全随机" value=1></el-option>
-						<el-option label="按章节/难度随机组卷" value=2></el-option>
-						<el-option label="手动组卷" value=3></el-option>
+				    	<el-option label="全随机" value="1"></el-option>
+						<el-option label="按章节/难度随机组卷" value="2"></el-option>
+						<el-option label="手动组卷" value="3"></el-option>
 				    </el-select>
 				</el-form-item>
-				<template v-if="form.mode === 2">
+				<template v-if="form.mode === '2'">
 					<el-form-item label="章节">
 						<el-select v-model="strategy.chapterid">
 							<el-option v-for="i in 20" :key="i" :label="i" :value="i"></el-option>
@@ -148,7 +148,7 @@
 						</el-select>
 					</el-form-item>
 				</template>
-				<template v-else-if="form.mode === 3">
+				<template v-else-if="form.mode === '3'">
 					<el-form-item label="手动">
 						<el-select v-model="strategy.questionids">
 							<el-option v-for="i in 20" :key="i" :label="i" :value="i"></el-option>
@@ -325,6 +325,7 @@ export default {
         handleEdit(index, row) {
             this.idx = index;
             this.form = row;
+            console.log(row);
             this.editVisible = true;
         },
 		// 查看试题

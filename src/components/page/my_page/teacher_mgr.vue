@@ -177,9 +177,6 @@ export default {
     methods: {
         check(msg){
             let isTel = /^1[34578]\d{9}$/.test(msg);
-            // console.log(typeof(msg));
-            // console.log(msg.toString());
-            // console.log(/^1[34578]\d{9}$/.test(msg))
             if (isTel) {
                 this.flag = false;
             }else {
