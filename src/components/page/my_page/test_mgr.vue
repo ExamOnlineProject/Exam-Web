@@ -243,20 +243,13 @@
                         </div>
                     </template>
                     <template v-else-if="add_param.type === '判断'">
-                        <div>
-                            <editor-bar v-model="add_param.content" :isClear="isClear" @change="change"></editor-bar>
-                        </div>
+                           <el-input  v-model="add_param.content"></el-input>
                         <el-form-item label="答案">
                             <el-radio-group v-model="add_param.answer">
                                 <el-radio label="A">对</el-radio>
                                 <el-radio label="B">错</el-radio>
                             </el-radio-group>
                         </el-form-item>
-                    </template>
-                    <template  v-else-if="add_param.type === '判断'">
-                        <div>
-                            <editor-bar v-model="add_param.content" :isClear="isClear" @change="change"></editor-bar>
-                        </div>
                     </template>
                     <template v-else-if="add_param.type === '选择'">
                         <div>

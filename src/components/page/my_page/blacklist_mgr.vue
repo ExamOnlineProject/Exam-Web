@@ -88,15 +88,22 @@
 		<!-- 添加弹出框 -->
 		<el-dialog title="添加黑名单进程" :visible.sync="add_editVisible" width="30%">
 		    <el-form ref="form" :model="form" label-width="70px">
-		        <el-form-item label="程序名">
-		            <el-input v-model="add_param.name"></el-input>
-		        </el-form-item>
+                <div>
+                    <el-form-item label="程序名">
+                        <el-input type="text" v-model="add_param.name" :need="true" v-verify.cname="smsVerify"></el-input>
+                    </el-form-item>
+                   <div class="red" v-if="!smsVerify.empty">非法不合法，请检查输入</div>
+                </div>
 		        <el-form-item label="类型">
 		            <el-input v-model="add_param.type"></el-input>
 		        </el-form-item>
-				<el-form-item label="进程名">
-				    <el-input v-model="add_param.process"></el-input>
-				</el-form-item>
+                <div>
+                    <el-form-item label="进程名">
+                        <el-input v-model="add_param.process"  :need="true" v-verify.pro="smsVerify"></el-input>
+                        <div class="red" v-if="!smsVerify.empty">非法不合法，请检查输入</div>
+                    </el-form-item>
+                </div>
+
 		    </el-form>
 		    <span slot="footer" class="dialog-footer">
 		        <el-button @click="add_editVisible = false">取 消</el-button>
@@ -111,10 +118,23 @@
 import { getBlackListTypes } from '../../../api/index.js';
 import { selectBlackList, deleteBlackList, updateBlackList, insertBlackList } from '../../../api/BlackListAPI.js';
 import '../../../api/BlackListAPI.js';
+import Vue from "vue"
+import vueVerify from "vue-better-verify"
+
+Vue.use(vueVerify,{
+    regExp: {
+        cname: /^[\u4e00-\u9fa5]{1,20}$/, // 添加的自定义正则
+        pro:/[\s\S]/
+    },
+})
 export default {
     name: 'user',
     data() {
         return {
+            smsVerify:{
+                isFirst:true,
+                empty:true
+            },
             query: {
                 type: '',
                 pageIndex: 1,
@@ -162,11 +182,23 @@ export default {
             this.getData();
         },
         addBlackList(){
-			insertBlackList(this.add_param).then(res=>{
-				this.getData();
-				this.add_editVisible = false;
-				this.$message.success('添加成功');
-			})
+		    this.$verify.doVerify();
+		    if(this.$verify.default.all){
+		        console.log("yanz")
+                insertBlackList(this.add_param).then(res=>{
+                    if(res.code===500){
+                        this.getData();
+                        this.add_editVisible = false;
+                        this.$message.error(res.msg);
+                    }
+                    else{
+                        this.getData();
+                        this.add_editVisible = false;
+                        this.$message.success('添加成功');
+                    }
+                })
+            }
+
 		},
         // 删除操作
         handleDelete(index, row) {
@@ -206,10 +238,14 @@ export default {
         // 保存编辑
         saveEdit() {
             this.editVisible = false;
-			updateBlackList(this.form).then(res=>{
-				this.$message.success(`修改第 ${this.idx + 1} 行成功`);
-				this.getData();
-			})
+            this.$verify.doVerify();
+            if(this.$verify.default.all){
+                updateBlackList(this.form).then(res=>{
+                    this.$message.success(`修改第 ${this.idx + 1} 行成功`);
+                    this.getData();
+                })
+            }
+
         },
         // 分页导航
         handlePageChange(val) {
@@ -248,5 +284,8 @@ export default {
     margin: auto;
     width: 40px;
     height: 40px;
+}
+.red{
+    color: deeppink;
 }
 </style>
