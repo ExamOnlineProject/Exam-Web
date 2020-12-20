@@ -90,7 +90,7 @@
 		    <el-form ref="form" :model="form" label-width="70px">
                 <div>
                     <el-form-item label="程序名">
-                        <el-input type="text" v-model="add_param.name" :need="true" v-verify.cname="smsVerify"></el-input>
+                        <el-input type="text" v-model="add_param.name" v-verify.cname="smsVerify"></el-input>
                     </el-form-item>
                    <div class="red" v-if="!smsVerify.empty">非法不合法，请检查输入</div>
                 </div>

@@ -256,16 +256,24 @@
                             <editor-bar v-model="add_param.content" :isClear="isClear" @change="change"></editor-bar>
                         </div>
                         <el-form-item label="选项A">
-                            <el-input v-model="add_param.option1"></el-input>
+                            <div>
+                                <editor-bar v-model="add_param.option1" :isClear="isClear" @change="change"></editor-bar>
+                            </div>
                         </el-form-item>
                         <el-form-item label="选项B">
-                            <el-input v-model="add_param.option2"></el-input>
+                            <div>
+                                <editor-bar v-model="add_param.option2" :isClear="isClear" @change="change"></editor-bar>
+                            </div>
                         </el-form-item>
                         <el-form-item label="选项C">
-                            <el-input v-model="add_param.option3"></el-input>
+                            <div>
+                                <editor-bar v-model="add_param.option3" :isClear="isClear" @change="change"></editor-bar>
+                            </div>
                         </el-form-item>
                         <el-form-item label="选项D">
-                            <el-input v-model="add_param.option4"></el-input>
+                            <div>
+                                <editor-bar v-model="add_param.option4" :isClear="isClear" @change="change"></editor-bar>
+                            </div>
                         </el-form-item>
                         <el-form-item label="答案">
                             <el-radio-group v-model="add_param.answer">
