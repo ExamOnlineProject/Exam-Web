@@ -61,7 +61,7 @@
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
             <el-form ref="form" :model="form" label-width="70px" :rules="rules">
-		        <el-form-item label="课程" prop="course">
+		        <el-form-item label="课程">
 		            <el-select v-model="form.courseid" disabled placeholder="课程">
 		                <el-option
 		                	v-for="item in course_list"
@@ -71,12 +71,12 @@
 		                </el-option>
 		            </el-select>
 		        </el-form-item>
-		        <el-form-item label="章节" prop="chapter">
+		        <el-form-item label="章节">
 		            <el-select v-model="form.index" placeholder="章节">
 		                <el-option v-for="i in 15" :key="i" :label="i" :value="i"></el-option>
 		            </el-select>
 		        </el-form-item>
-				<el-form-item label="章节名" prop="chapterName">
+				<el-form-item label="章节名" prop="chaptername">
 				    <el-input v-model="form.chaptername"></el-input>
 				</el-form-item>
             </el-form>
@@ -89,7 +89,7 @@
 		<!-- 添加弹出框 -->
 		<el-dialog title="添加章节" :visible.sync="add_editVisible" width="30%">
 		    <el-form ref="form" :model="form" label-width="70px" :rules="rules">
-		        <el-form-item label="课程" prop="course">
+		        <el-form-item label="课程" prop="courseid">
 		            <el-select v-model="add_param.courseid" disabled placeholder="课程">
 		                <el-option
 		                	v-for="item in course_list"
@@ -99,12 +99,12 @@
 		                </el-option>
 		            </el-select>
 		        </el-form-item>
-		        <el-form-item label="章节" prop="chapter">
+		        <el-form-item label="章节" prop="index">
 		            <el-select v-model="add_param.index" placeholder="章节">
 		                <el-option v-for="i in 15" :key="i" :label="i" :value="i"></el-option>
 		            </el-select>
 		        </el-form-item>
-				<el-form-item label="章节名" prop="chapterName">
+				<el-form-item label="章节名" prop="chaptername">
 				    <el-input v-model="add_param.chaptername"></el-input>
 				</el-form-item>
 		    </el-form>
@@ -150,9 +150,9 @@ export default {
 			course_list: '',
             coursename:'',
             rules: {
-                course: [{ required: true, message: '请选择课程', trigger: 'blur' }],
-                chapter: [{ required: true, message: '请选择章节', trigger: 'blur' }],
-                chapterName: [{ required: true, message: '请输入章节名', trigger: 'blur' }],
+                courseid: [{ required: true, message: '请选择课程', trigger: 'blur' }],
+                index: [{ required: true, message: '请选择章节', trigger: 'blur' }],
+                chaptername: [{ required: true, message: '请输入章节名', trigger: 'blur' }],
             }
         };
     },
@@ -219,6 +219,7 @@ export default {
         },
         // 保存编辑
 		saveEdit() {
+		    console.log(this.form)
             this.$refs.form.validate(valid => {
                 if (valid) {
                     updateChapter(this.form).then(res => {

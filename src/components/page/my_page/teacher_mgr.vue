@@ -75,7 +75,7 @@
 				    <el-input v-model="form.name"></el-input>
 				</el-form-item>
 				<el-form-item label="电话">
-				    <el-input v-model="form.tel" @input="check(form.tel)"></el-input>
+				    <el-input v-model="form.tel" :maxlength="11" @input="check(form.tel)"></el-input>
 				</el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -86,7 +86,7 @@
 		
 		<!-- 添加弹出框 -->
 		<el-dialog title="添加" :visible.sync="add_editVisible" width="30%">
-		    <el-form ref="form" :model="form" label-width="70px" :rules="rules">
+		    <el-form ref="add_param" :model="add_param" label-width="70px" :rules="rules">
 		        <el-form-item label="用户名" prop="username">
 		            <el-input v-model="add_param.username"></el-input>
 		        </el-form-item>
@@ -97,12 +97,12 @@
 				    <el-input v-model="add_param.name"></el-input>
 				</el-form-item>
 				<el-form-item label="电话">
-				    <el-input v-model="add_param.tel" @input="check(add_param.tel)"></el-input>
+				    <el-input v-model="add_param.tel" :maxlength="11" @input="check(add_param.tel)"></el-input>
 				</el-form-item>
 		    </el-form>
 		    <span slot="footer" class="dialog-footer">
 		        <el-button @click="add_editVisible = false">取 消</el-button>
-		        <el-button type="primary" @click="addTeacher" :disabled="flag">确 定</el-button>
+		        <el-button type="primary" @click="addTeacher">确 定</el-button>
 		    </span>
 		</el-dialog>
 		
@@ -162,7 +162,7 @@ export default {
             idx: -1,
             id: -1,
 			class_list: '',
-            flag:true,
+            flag:false,
             rules: {
                 username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
                 password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
@@ -178,12 +178,13 @@ export default {
         check(msg){
             let isTel = /^1[34578]\d{9}$/.test(msg);
             if (isTel) {
-                this.flag = false;
+                this.flag = true;
             }else {
-                this.flag=true;
+                this.flag=false;
             }
         },
 		showAddDlg() {
+            this.add_param={ role: '2', username: '', password: '', tel: '', name: '', }
 			this.add_editVisible = true
             this.flag=false;
 		},
@@ -208,8 +209,8 @@ export default {
             });
         },
 		addTeacher(){
-            this.$refs.form.validate(valid => {
-                if (valid){
+            this.$refs.add_param.validate(valid => {
+                if (valid && this.flag){
                     insertUser(this.add_param).then(res=>{
                         this.getData();
                         this.add_editVisible = false;
@@ -268,7 +269,7 @@ export default {
         // 保存编辑
         saveEdit() {
             this.$refs.form.validate(valid => {
-                if (valid){
+                if (valid && this.flag){
                     this.editVisible = false;
                     updateUser(this.form).then(res=>{
                         this.$message.success(`修改第 ${this.idx + 1} 行成功`);

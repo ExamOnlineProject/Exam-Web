@@ -64,17 +64,17 @@
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
             <el-form ref="form" :model="form" label-width="70px" :rules="rules">
-		        <el-form-item label="用户名">
+		        <el-form-item label="用户名" prop="username">
 		            <el-input v-model="form.username"></el-input>
 		        </el-form-item>
-				<el-form-item label="密码">
+				<el-form-item label="密码" prop="password">
 				    <el-input v-model="form.password"></el-input>
 				</el-form-item>
-				<el-form-item label="姓名">
+				<el-form-item label="姓名" prop="name">
 				    <el-input v-model="form.name"></el-input>
 				</el-form-item>
 				<el-form-item label="电话">
-				    <el-input v-model="form.tel"></el-input>
+				    <el-input v-model="form.tel":maxlength="11" @input="check(form.tel)"></el-input>
 				</el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -85,7 +85,7 @@
 		
 		<!-- 添加弹出框 -->
 		<el-dialog title="添加" :visible.sync="add_editVisible" width="30%">
-		    <el-form ref="form" :model="form" label-width="70px" :rules="rules">
+		    <el-form ref="add_param" :model="add_param" label-width="70px" :rules="rules">
 		        <el-form-item label="用户名" prop="username">
 		            <el-input v-model="add_param.username"></el-input>
 		        </el-form-item>
@@ -96,12 +96,12 @@
 				    <el-input v-model="add_param.name"></el-input>
 				</el-form-item>
 				<el-form-item label="电话" >
-				    <el-input v-model="add_param.tel" @input="check(add_param.tel)"></el-input>
+				    <el-input v-model="add_param.tel" :maxlength="11" @input="check(add_param.tel)"></el-input>
 				</el-form-item>
 		    </el-form>
 		    <span slot="footer" class="dialog-footer">
 		        <el-button @click="add_editVisible = false">取 消</el-button>
-		        <el-button type="primary" @click="addAdmin" :disabled="flag">确 定</el-button>
+		        <el-button type="primary" @click="addAdmin">确 定</el-button>
 		    </span>
 		</el-dialog>
     </div>
@@ -138,7 +138,7 @@ export default {
             idx: -1,
             id: -1,
 			class_list: '',
-            flag:true,
+            flag:false,
             rules: {
                 username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
                 password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
@@ -157,13 +157,14 @@ export default {
             // console.log(msg.toString());
             // console.log(/^1[34578]\d{9}$/.test(msg))
             if (isTel) {
-                this.flag = false;
+                this.flag = true;
             }else {
-                this.flag=true;
+                this.$message.error('请正确填写手机号');
             }
         },
 		showAddDlg() {
-			this.add_editVisible = true
+			this.add_editVisible = true;
+            this.flag=false;
 		},
         // 获取 easy-mock 的模拟数据
         getData() {
@@ -182,8 +183,9 @@ export default {
             });
         },
 		addAdmin(){
-            this.$refs.form.validate(valid => {
-                if (valid){
+            this.check(this.add_param.tel);
+            this.$refs.add_param.validate(valid => {
+                if (valid && this.flag){
                     insertUser(this.add_param).then(res=>{
                         this.getData();
                         this.$message.success('添加成功');
@@ -243,7 +245,7 @@ export default {
         // 保存编辑
         saveEdit() {
             this.$refs.form.validate(valid => {
-                if (valid && !this.flag){
+                if (valid && this.flag){
                     this.editVisible = false;
                     updateUser(this.form).then(res=>{
                         this.$message.success(`修改第 ${this.idx + 1} 行成功`);

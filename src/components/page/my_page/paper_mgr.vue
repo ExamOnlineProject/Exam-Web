@@ -23,14 +23,14 @@
                     	:value="item.id">
                     </el-option>
                 </el-select>
-                <el-select v-model="query.classid" placeholder="班级" @change="getData()" class="handle-select mr10">
-                    <el-option
-                    	v-for="item in class_list"
-                    	:key="item.id"
-                    	:label="item.name"
-                    	:value="item.id">
-                    </el-option>
-                </el-select>
+<!--                <el-select v-model="query.classid" placeholder="班级" @change="getData()" class="handle-select mr10">-->
+<!--                    <el-option-->
+<!--                    	v-for="item in class_list"-->
+<!--                    	:key="item.id"-->
+<!--                    	:label="item.name"-->
+<!--                    	:value="item.id">-->
+<!--                    </el-option>-->
+<!--                </el-select>-->
             </div>
             <el-table
                 :data="tableData"
@@ -105,9 +105,9 @@
 
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="40%">
-            <el-form ref="form" :model="form" label-width="100px">
-				<el-form-item label="考试课程">
-				    <el-select v-model="form.coursename" placeholder="课程" class="handle-select mr10">
+            <el-form ref="form" :model="form" label-width="100px" :rules="rules">
+				<el-form-item label="考试课程" prop="courseName">
+				    <el-select v-model="form.courseName" placeholder="课程" class="handle-select mr10">
 				        <el-option
 				        	v-for="item in course_list"
 				        	:key="item.id"
@@ -116,13 +116,13 @@
 				        </el-option>
 				    </el-select>
 				</el-form-item>
-                <el-form-item label="考试模式">
+                <el-form-item label="考试模式" prop="pattern">
                     <el-select v-model="form.pattern" placeholder="模式" class="handle-select mr10">
 				        <el-option :value="1" label="限通信模式"></el-option>
                         <el-option :value="2" label="霸屏模式"></el-option>
 				    </el-select>
                 </el-form-item>
-                <el-form-item label="是否开启监控">
+                <el-form-item label="是否开启监控" prop="isMonitor">
                     <el-select v-model="form.isMonitor" placeholder="是/否" class="handle-select mr10">
 				        <el-option value="1" label="开启"></el-option>
                         <el-option value="2" label="关闭"></el-option>
@@ -222,7 +222,12 @@ export default {
             course_list: '',
             class_list: '',
             test_list: '',
-            link_list: []
+            link_list: [],
+            rules: {
+                courseName: [{ required: true, message: '请选择课程名', trigger: 'blur' }],
+                pattern: [{ required: true, message: '请选择考试模式', trigger: 'blur' }],
+                isMonitor: [{ required: true, message: '请选择是否打开监控', trigger: 'blur' }],
+            }
         };
     },
     created() {
@@ -303,11 +308,17 @@ export default {
         },
         delAllSelection() {
 			if (this.idList.length>0){
-				deletePaper({ids: this.idList}).then(res=>{
-					this.$message.error(res.msg);
-					this.query.pageIndex = 1;
-					this.getData();
-				});
+                // 二次确认删除
+                this.$confirm('确定要删除吗？', '提示', {
+                    type: 'warning'
+                })
+                    .then(() => {
+                    deletePaper({ids: this.idList}).then(res=>{
+                        this.$message.success(res.msg);
+                        this.query.pageIndex = 1;
+                        this.getData();
+                    });
+				})
 			}
         },
         // 编辑操作
@@ -326,11 +337,18 @@ export default {
 		},
         // 保存编辑
         saveEdit() {
-            this.editVisible = false;
-			updatePaper(this.form).then(res=>{
-				this.$message.success(`修改第 ${this.idx + 1} 行成功`);
-				this.getData();
-			})
+            this.$refs.form.validate(valid => {
+                if (valid) {
+                    this.editVisible = false;
+                    updatePaper(this.form).then(res=>{
+                        this.$message.success(`修改第 ${this.idx + 1} 行成功`);
+                        this.getData();
+                    })
+                }else {
+                    this.$message.error("请正确填写信息");
+                    return false;
+                }
+            })
         },
         // 分页导航
         handlePageChange(val) {

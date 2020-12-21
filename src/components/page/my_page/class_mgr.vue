@@ -59,22 +59,22 @@
         </div>
 
         <!-- 编辑弹出框 -->
-        <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
-            <el-form ref="form" :model="form" label-width="70px">
-		        <el-form-item label="班级名称">
+        <el-dialog title="编辑" :visible.sync="editVisible" width="35%">
+            <el-form ref="form" :model="form" label-width="80px" :rules="rules">
+		        <el-form-item label="班级名称" prop="classname">
 		            <el-input v-model="form.classname"></el-input>
 		        </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="editVisible = false">取 消</el-button>
+                <el-button @click="handleCancle">取 消</el-button>
                 <el-button type="primary" @click="saveEdit">确 定</el-button>
             </span>
         </el-dialog>
 		
 		<!-- 添加弹出框 -->
-		<el-dialog title="添加班级" :visible.sync="add_editVisible" width="30%">
-		    <el-form ref="form" :model="form" label-width="70px">
-		        <el-form-item label="班级名称">
+		<el-dialog title="添加班级" :visible.sync="add_editVisible" width="35%">
+		    <el-form ref="form" :model="form" label-width="80px" :rules="rules">
+		        <el-form-item label="班级名称" prop="classname">
 		            <el-input v-model="add_param.classname"></el-input>
 		        </el-form-item>
 		    </el-form>
@@ -127,7 +127,9 @@ export default {
             pageTotal: 0,
             form: {},
             idx: -1,
-            id: -1
+            id: -1,
+            rules: {
+                classname: [{ required: true, message: '请输入班级名', trigger: 'blur' }],}
         };
     },
     created() {
@@ -149,11 +151,18 @@ export default {
             });
         },
         addClass(){
-			insertClass(this.add_param).then(res=>{
-				this.getData();
-				this.add_editVisible = false;
-				this.$message.success('添加成功');
-			})
+            this.$refs.add_param.validate(valid => {
+                    if (valid) {
+                        insertClass(this.add_param).then(res => {
+                            this.getData();
+                            this.add_editVisible = false;
+                            this.$message.success('添加成功');
+                        })
+                }else{
+                        this.$message.error("请填写班级名称");
+                        return false;
+                    }
+            })
 		},
         // 触发搜索按钮
         handleSearch() {
@@ -209,15 +218,26 @@ export default {
         },
         // 保存编辑
         saveEdit() {
-            this.editVisible = false;
-			updateClass(this.form).then(res=>{
-				this.$message.success(`修改第 ${this.idx + 1} 行成功`);
-				this.getData();
-			})
+            this.$refs.form.validate(valid => {
+                if (valid && this.flag) {
+                    this.editVisible = false;
+                    updateClass(this.form).then(res=>{
+                        this.$message.success(`修改第 ${this.idx + 1} 行成功`);
+                        this.getData();
+                    })
+                }else{
+                    this.$message.error("请填写班级名称");
+                    this.reload();
+                }
+            })
         },
         // 分页导航
         handlePageChange(val) {
             this.$set(this.query, 'pageIndex', val);
+            this.getData();
+        },
+        handleCancle(){
+            this.editVisible = false;
             this.getData();
         }
     }

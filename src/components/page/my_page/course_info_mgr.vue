@@ -72,7 +72,7 @@
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
             <el-form ref="form" :model="form" label-width="90px" :rules="rules">
-		        <el-form-item label="课程名" prop="courseName">
+		        <el-form-item label="课程名" prop="coursename">
 		            <el-input v-model="form.coursename"></el-input>
 		        </el-form-item>
 		        <el-form-item label="课程负责人">
@@ -148,7 +148,7 @@ export default {
             course_list: '',
             teacher_list: '',
             rules: {
-                courseName: [{ required: true, message: '请输入课程名', trigger: 'blur' }],
+                coursename: [{ required: true, message: '请输入课程名', trigger: 'blur' }],
             }
         };
     },
@@ -220,9 +220,11 @@ export default {
             this.idx = index;
             this.form = row;
             this.editVisible = true;
+            console.log(row);
         },
         // 保存编辑
 		saveEdit() {
+		    console.log(this.form)
             this.$refs.form.validate(valid => {
                 if (valid) {
                     updateCourse(this.form).then(res => {
