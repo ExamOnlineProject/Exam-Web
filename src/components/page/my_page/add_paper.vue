@@ -111,7 +111,7 @@
 		<el-dialog title="编辑" :visible.sync="editVisible" width="30%">
 		    <el-form ref="form" :model="form" label-width="70px">
 				<el-form-item label="题目类型">
-					<el-select v-model="strategy.type">
+					<el-select v-model="form.type">
 						<el-option label="选择" value="选择"></el-option>
 						<el-option label="填空" value="填空"></el-option>
 						<el-option label="判断" value="判断"></el-option>
@@ -120,17 +120,17 @@
 					</el-select>
 				</el-form-item>
 		        <el-form-item label="题目数量">
-		            <el-select v-model="strategy.count">
+		            <el-select v-model="form.count">
 		            	<el-option v-for="i in 20" :key="i" :label="i" :value="i"></el-option>
 		            </el-select>
 		        </el-form-item>
 				<el-form-item label="题目分值">
-				    <el-select v-model="strategy.score">
+				    <el-select v-model="form.score">
 				    	<el-option v-for="i in 20" :key="i" :label="i" :value="i"></el-option>
 				    </el-select>
 				</el-form-item>
 				<el-form-item label="组卷方式">
-				    <el-select v-model="strategy.mode">
+				    <el-select v-model="form.mode">
 				    	<el-option label="全随机" value="1"></el-option>
 						<el-option label="按章节/难度随机组卷" value="2"></el-option>
 						<el-option label="手动组卷" value="3"></el-option>
@@ -281,6 +281,9 @@ export default {
         onSubmit() {
 			insertPaper(this.paper).then(res=>{
 				this.$message.success('提交成功！');
+                this.$router.push({
+                    path:'/paper_mgr'
+                })
 			})
         },
 		add_strategy() {
@@ -314,10 +317,9 @@ export default {
                 type: 'warning'
             })
                 .then(() => {
-					deletePaper().then(res=>{
-						this.getData();
-						this.$message.success('删除成功');
-					})
+                    this.paper.strategyDTOS.splice(index,1);
+                    this.getData();
+                    this.$message.success('删除成功');
                 })
                 .catch(() => {});
         },
