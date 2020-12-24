@@ -255,7 +255,14 @@ export default {
         // 触发搜索按钮
         handleSearch() {
             this.$set(this.query, 'pageIndex', 1);
-            this.getData();
+            selectTeachInfo(this.query).then(res => {
+                //console.log(res);
+                this.tableData = res.list;
+                this.pageTotal = res.pageTotal;
+                this.query.name='';
+                this.query.courseid='';
+            });
+
         },
         handleInsert(row) {
             this.add_class_editVisible = true;
@@ -280,7 +287,7 @@ export default {
 						this.getData();
 						this.$message.success('删除成功');
 					}).catch(()=>{
-                        this.$message.error('删除成功');
+                        this.$message.error('删除失败');
                     })
                 })
         },
@@ -293,11 +300,18 @@ export default {
         },
         delAllSelection() {
 			if (this.idList.length>0){
-				deleteTeachInfo({ids: this.idList}).then(res=>{
-					this.$message.error(res.msg);
-					this.query.pageIndex = 1;
-					this.getData();
-				});
+                this.$confirm('确定要删除吗？', '提示', {
+                    type: 'warning'
+                })
+                    .then(() => {
+                        deleteTeachInfo({ ids: this.idList }).then(res => {
+                            this.$message.success(res.msg);
+                            this.query.pageIndex = 1;
+                            this.getData();
+                        })
+                    }).catch(()=>{
+                    this.$message.error('删除失败');
+                })
 			}
         },
         // 编辑操作
@@ -311,6 +325,8 @@ export default {
             insertTeachInfo(this.add_param).then(res=>{
                 this.$message.success(res.msg);
 				this.getData();
+				this.add_editVisible=false;
+				this.add_param={}
             }).catch(()=>{
                 this.$message.error(`添加失败`);
             })
@@ -320,6 +336,7 @@ export default {
             insertGetClass(this.add_class).then(res=>{
                 this.$message.success(res.msg);
 				this.getData();
+				this.add_class={};
             }).catch(()=>{
                 this.$message.error(`添加失败`);
             })

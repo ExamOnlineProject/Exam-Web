@@ -96,7 +96,7 @@
 				    <el-input v-model="add_param.name"></el-input>
 				</el-form-item>
 				<el-form-item label="电话" >
-				    <el-input v-model="add_param.tel" :maxlength="11" @input="check(add_param.tel)"></el-input>
+				    <el-input v-model="add_param.tel" :maxlength="11" @input="check(add_param.tel)" @change="this.getData()"></el-input>
 				</el-form-item>
 		    </el-form>
 		    <span slot="footer" class="dialog-footer">
@@ -159,7 +159,7 @@ export default {
             if (isTel) {
                 this.flag = true;
             }else {
-                this.$message.error('请正确填写手机号');
+                this.flag=false;
             }
         },
 		showAddDlg() {

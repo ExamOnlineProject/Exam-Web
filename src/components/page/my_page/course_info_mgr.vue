@@ -76,7 +76,7 @@
 		            <el-input v-model="form.coursename"></el-input>
 		        </el-form-item>
 		        <el-form-item label="课程负责人">
-		            <el-select v-model="form.teacher_id" placeholder="教师">
+		            <el-select v-model="form.teacherid" placeholder="教师">
 		                <el-option
 		                	v-for="item in teacher_list"
 		                	:key="item.id"
@@ -158,6 +158,7 @@ export default {
     },
     methods: {
 		showAddDlg() {
+		    this.form={}
 			this.add_editVisible = true
 		},
         // 获取 easy-mock 的模拟数据
@@ -243,8 +244,8 @@ export default {
                 if (valid) {
                     insertCourse(this.add_param).then(res => {
                         this.$message.success(`新增成功`);
-                        this.add_editVisible = false;
                         this.getData();
+                        this.add_editVisible = false;
                     })
                 }else{
                     this.$message.error("请正确填写信息");
