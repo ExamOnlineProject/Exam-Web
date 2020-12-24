@@ -220,32 +220,37 @@ export default {
         // 保存编辑
 		saveEdit() {
 		    console.log(this.form)
-            this.$refs.form.validate(valid => {
-                if (valid) {
-                    updateChapter(this.form).then(res => {
-                        this.$message.success(`修改成功`);
-                        this.editVisible = false;
-                        this.getData();
-                    })
-                } else {
-                    this.$message.error("请完善信息");
-                    return false;
-                }
-            })
+            if(this.form.chaptername!=''&& this.form.chaptername!=null) {
+                updateChapter(this.form).then(res => {
+                    this.$message.success(`修改成功`);
+                    this.editVisible = false;
+                    this.getData();
+                })
+            }else{
+                this.$message.error(`新增失败`);
+                return false;
+            }
 		},
         saveInsert() {
-            this.$refs.form.validate(valid => {
-                if (valid) {
-                    insertChapter(this.add_param).then(res => {
-                        this.$message.success(`新增成功`);
-                        this.add_editVisible = false;
-                        this.getData();
-                    })
-                }else {
-                    this.$message.error("请完善信息");
-                    return false;
-                }
-            })
+            if(this.add_param.chaptername!=''&& this.add_param.chaptername!=null){
+                insertChapter(this.add_param).then(res => {
+                    this.$message.success(`新增成功`);
+                    this.add_editVisible = false;
+                    this.getData();
+                    // this.$refs.add_param.validate(valid => {
+                    //     if (valid) {
+                    //
+                    //         })
+                    //     }else {
+                    //         this.$message.error("请完善信息");
+                    //         return false;
+                    //     }
+                    // })
+                })
+            }else{
+                this.$message.error(`新增失败`);
+                return false;
+            }
         },
         // 分页导航
         handlePageChange(val) {

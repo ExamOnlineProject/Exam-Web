@@ -226,7 +226,7 @@ export default {
             selectStudent(this.query).then(res => {
                 this.tableData = res.list;
                 this.pageTotal = res.pageTotal;
-            });
+            })
         },
         // 触发搜索按钮
         handleSearch() {
@@ -252,7 +252,6 @@ export default {
                    return false;
                }
             })
-            thi
 		},
         // 删除操作
         handleDelete(index, row) {

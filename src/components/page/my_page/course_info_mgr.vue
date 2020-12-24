@@ -95,7 +95,7 @@
 		<!-- 添加弹出框 -->
 		<el-dialog title="添加课程" :visible.sync="add_editVisible" width="30%">
 		    <el-form ref="form" :model="form" label-width="100px" :rules="rules">
-				<el-form-item label="课程名" prop="courseName">
+				<el-form-item label="课程名" prop="coursename">
 				    <el-input v-model="add_param.coursename"></el-input>
 				</el-form-item>
                 <el-form-item label="课程负责人">
@@ -240,7 +240,7 @@ export default {
             })
 		},
         saveInsert() {
-            this.$refs.form.validate(valid => {
+            this.$refs.add_param.validate(valid => {
                 if (valid) {
                     insertCourse(this.add_param).then(res => {
                         this.$message.success(`新增成功`);
