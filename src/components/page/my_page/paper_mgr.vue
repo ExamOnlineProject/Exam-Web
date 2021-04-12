@@ -153,14 +153,27 @@
             <hr/>
 		    <el-form ref="form" :model="form" v-for="item in test_list" :key="item.test_id" label-width="70px">
 		        <el-form-item label="题目：">
-                    <el-tag>{{item.type}}</el-tag>
-                    {{ item.content }} 
+                    <el-tag style="">{{item.type}}</el-tag>
+                    <template v-if="item.content.search('https')!==-1">
+                        <img :src="item.content" style="height: 150px;width: 150px;overflow: hidden"/>
+                    </template>
+                    <template v-if="item.content.search('https')===-1">
+                        {{item.content}}
+                    </template>
                 </el-form-item>
-                <template v-if="item.type === '选择'">
-                    <el-form-item label="选项A："> {{ item.option1 }} </el-form-item>
-                    <el-form-item label="选项B："> {{ item.option2 }} </el-form-item>
-                    <el-form-item label="选项C："> {{ item.option3 }} </el-form-item>
-                    <el-form-item label="选项D："> {{ item.option4 }} </el-form-item>
+                <template v-if="item.type === '选择' ">
+                    <el-form-item label="选项A：">
+                        <img :src="item.option1" style="height: 80px;width: 150px;overflow: hidden"/>
+                    </el-form-item>
+                    <el-form-item label="选项B：">
+                        <img :src="item.option2" style="height: 80px;width: 150px;overflow: hidden"/>
+                    </el-form-item>
+                    <el-form-item label="选项C：">
+                        <img :src="item.option3" style="height: 80px;width: 150px;overflow: hidden"/>
+                    </el-form-item>
+                    <el-form-item label="选项D：">
+                        <img :src="item.option4" style="height: 80px;width: 150px;overflow: hidden"/>
+                    </el-form-item>
                 </template>
                 <el-form-item label="难度："> {{ item.difficulty }} </el-form-item>
                 <hr/>
@@ -202,6 +215,7 @@ export default {
     name: 'paper',
     data() {
         return {
+            a:'https://pic.sogou.com/d?query=%E4%B8%96%E7%95%8C%E9%A3%8E%E5%85%89&forbidqc=&entityid=&preQuery=&rawQuery=&queryList=&st=&did=1',
             query: {
                 courseid: '',
                 classid: '',

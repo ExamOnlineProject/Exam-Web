@@ -130,6 +130,7 @@ export default {
     float: left;
     width: 250px;
     line-height: 70px;
+    font-size: larger;
 }
 .header-right {
     float: right;
@@ -155,7 +156,7 @@ export default {
     cursor: pointer;
 }
 .btn-bell-badge {
-    position: absolute;
+    position: relative;
     right: 0;
     top: -2px;
     width: 8px;

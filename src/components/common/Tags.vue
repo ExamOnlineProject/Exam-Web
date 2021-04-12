@@ -143,7 +143,6 @@
         border: 1px solid #e9eaec;
         background: #fff;
         padding: 0 5px 0 12px;
-
         color: #666;
         -webkit-transition: all .3s ease-in;
         -moz-transition: all .3s ease-in;
@@ -154,7 +153,7 @@
         background: #f8f8f8;
     }
 
-    .tags-li.active {
+    .tags-li:active {
         color: #fff;
     }
 

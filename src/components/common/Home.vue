@@ -1,9 +1,9 @@
 <template>
     <div class="wrapper">
         <v-head></v-head>
+        <v-tags></v-tags>
         <v-sidebar></v-sidebar>
         <div class="content-box" :class="{'content-collapse':collapse}">
-            <v-tags></v-tags>
             <div class="content">
                 <transition name="move" mode="out-in">
                     <keep-alive :include="tagsList">

@@ -1,7 +1,8 @@
 * {
     margin: 0;
     padding: 0;
-    font-size: small;
+    font-size: 15px;
+    font-family: '楷体', 'PingFang SC', "Helvetica Neue", Helvetica, "microsoft yahei", arial, STHeiTi, sans-serif;
 }
 
 html,
@@ -26,7 +27,7 @@ a {
     position: absolute;
     left: 250px;
     right: 0;
-    top: 70px;
+    top: 100px;
     bottom: 0;
     padding-bottom: 30px;
     -webkit-transition: left .3s ease-in-out;
@@ -73,7 +74,7 @@ a {
 }
 
 .el-button+.el-tooltip {
-    margin-left: 10px;
+    margin-left: 20px;
 }
 
 .el-table tr:hover {
