@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    font-size: small;
 }
 
 html,
@@ -13,7 +14,7 @@ body,
 }
 
 body {
-    font-family: 'PingFang SC', "Helvetica Neue", Helvetica, "microsoft yahei", arial, STHeiTi, sans-serif;
+    font-family: '楷体','PingFang SC', "Helvetica Neue", Helvetica, "microsoft yahei", arial, STHeiTi, sans-serif;
 }
 
 a {
@@ -30,7 +31,7 @@ a {
     padding-bottom: 30px;
     -webkit-transition: left .3s ease-in-out;
     transition: left .3s ease-in-out;
-    background: #f0f0f0;
+    background: #4b5052;
 }
 
 .content {
@@ -42,7 +43,7 @@ a {
 }
 
 .content-collapse {
-    left: 65px;
+    left: 0px;
 }
 
 .container {
@@ -53,7 +54,8 @@ a {
 }
 
 .crumbs {
-    margin: 10px 0;
+    margin: 5px 0;
+    color: white;
 }
 
 .el-table th {
@@ -75,7 +77,7 @@ a {
 }
 
 .el-table tr:hover {
-    background: #f6faff;
+    background: #4b5052;
 }
 
 .mgb20 {

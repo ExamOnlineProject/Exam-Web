@@ -288,7 +288,7 @@
 		        </el-form-item>
                 <el-form-item label="难度">
 				    <el-select v-model="add_param.difficulty">
-		            	<el-option label="简答" value="简单"></el-option>
+		            	<el-option label="简单" value="简单"></el-option>
 						<el-option label="中等" value="中等"></el-option>
 						<el-option label="困难" value="困难"></el-option>
 		            </el-select>

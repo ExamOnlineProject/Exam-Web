@@ -190,7 +190,8 @@ export default {
 
 <style scoped>
 .handle-box {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+
 }
 
 .handle-select {

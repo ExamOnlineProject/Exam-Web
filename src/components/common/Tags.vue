@@ -19,6 +19,7 @@
                 </el-dropdown-menu>
             </el-dropdown>
         </div>
+
     </div>
 </template>
 
@@ -115,15 +116,17 @@
 <style>
     .tags {
         position: relative;
+        width: 100%;
         height: 30px;
         overflow: hidden;
         background: #fff;
         padding-right: 120px;
         box-shadow: 0 5px 10px #ddd;
+
     }
 
     .tags ul {
-        box-sizing: border-box;
+        left: 0px;
         width: 100%;
         height: 100%;
     }
@@ -140,7 +143,7 @@
         border: 1px solid #e9eaec;
         background: #fff;
         padding: 0 5px 0 12px;
-        vertical-align: middle;
+
         color: #666;
         -webkit-transition: all .3s ease-in;
         -moz-transition: all .3s ease-in;
