@@ -134,7 +134,7 @@
 		            </el-select>
 		        </el-form-item>
 		        <el-form-item label="题目">
-		            <el-input v-model="form.content"></el-input>
+		            <el-input v-model="form.content" ></el-input>
 		        </el-form-item>
                 <template v-if="form.type === '选择'">
                     <el-form-item label="选项A">
@@ -239,11 +239,35 @@
                     </quill-editor> -->
                     <template v-if="add_param.type === '简答'">
                         <div>
-                            <editor-bar v-model="add_param.content" :isClear="isClear" @change="change"></editor-bar>
+                            <el-button @click="cur=1" :class="{active:cur==1}">输入文字</el-button>
+                            <el-button @click="cur=2" :class="{active:cur==1}">选择图片</el-button>
+                            <el-input v-model="add_param.content" v-show="cur==1"></el-input>
+                            <imageUpload v-model="add_param.content" v-show="cur==2" @getImageUrl="setImageUrl"></imageUpload>
+                        </div>
+                    </template>
+                     <template v-if="add_param.type === '填空'">
+                        <div>
+                            <el-button @click="cur=1" :class="{active:cur==1}">输入文字</el-button>
+                            <el-button @click="cur=2" :class="{active:cur==1}">选择图片</el-button>
+                            <el-input v-model="add_param.content" v-show="cur==1"></el-input>
+                            <imageUpload v-model="add_param.content" v-show="cur==2" @getImageUrl="setImageUrl"></imageUpload>
+                        </div>
+                    </template>
+                     <template v-if="add_param.type === '编程'">
+                        <div>
+                            <el-button @click="cur=1" :class="{active:cur==1}">输入文字</el-button>
+                            <el-button @click="cur=2" :class="{active:cur==1}">选择图片</el-button>
+                            <el-input v-model="add_param.content" v-show="cur==1"></el-input>
+                            <imageUpload v-model="add_param.content" v-show="cur==2" @getImageUrl="setImageUrl"></imageUpload>
                         </div>
                     </template>
                     <template v-else-if="add_param.type === '判断'">
-                           <el-input  v-model="add_param.content"></el-input>
+                           <div>
+                            <el-button @click="cur=1" :class="{active:cur==1}">输入文字</el-button>
+                            <el-button @click="cur=2" :class="{active:cur==1}">选择图片</el-button>
+                            <el-input v-model="add_param.content" v-show="cur==1"></el-input>
+                            <imageUpload v-model="add_param.content" v-show="cur==2" @getImageUrl="setImageUrl"></imageUpload>
+                        </div>
                         <el-form-item label="答案">
                             <el-radio-group v-model="add_param.answer">
                                 <el-radio label="A">对</el-radio>
@@ -253,27 +277,42 @@
                     </template>
                     <template v-else-if="add_param.type === '选择'">
                         <div>
-                            <editor-bar v-model="add_param.content" :isClear="isClear" @change="change"></editor-bar>
+                            <el-button @click="cur=1" :class="{active:cur==1}">输入文字</el-button>
+                            <el-button @click="cur=2" :class="{active:cur==1}">选择图片</el-button>
+                            <el-input v-model="add_param.content" :isClear="isClear" v-show="cur==1"></el-input>
+                            <imageUpload v-model="add_param.content" :isClear="isClear" v-show="cur==2" @getImageUrl="setImageUrl"></imageUpload>
                         </div>
                         <el-form-item label="选项A">
                             <div>
-                                <editor-bar v-model="add_param.option1" :isClear="isClear" @change="change"></editor-bar>
-                            </div>
+                            <el-button @click="o1=1" :class="{active:o1==1}">输入文字</el-button>
+                            <el-button @click="o1=2" :class="{active:o1==1}">选择图片</el-button>
+                            <el-input v-model="add_param.option1" :isClear="isClear" v-show="o1==1"></el-input>
+                            <imageUpload v-model="add_param.option1" :isClear="isClear" v-show="o1==2" @getImageUrl="change"></imageUpload>
+                        </div>
                         </el-form-item>
                         <el-form-item label="选项B">
                             <div>
-                                <editor-bar v-model="add_param.option2" :isClear="isClear" @change="change"></editor-bar>
-                            </div>
+                            <el-button @click="o2=1" :class="{active:o2==1}">输入文字</el-button>
+                            <el-button @click="o2=2" :class="{active:o2==1}">选择图片</el-button>
+                            <el-input v-model="add_param.option2" :isClear="isClear" v-show="o2==1"></el-input>
+                            <imageUpload v-model="add_param.option2" :isClear="isClear" v-show="o2==2" @getImageUrl="change2"></imageUpload>
+                        </div>
                         </el-form-item>
                         <el-form-item label="选项C">
                             <div>
-                                <editor-bar v-model="add_param.option3" :isClear="isClear" @change="change"></editor-bar>
-                            </div>
+                            <el-button @click="o3=1" :class="{active:o3==1}">输入文字</el-button>
+                            <el-button @click="o3=2" :class="{active:o3==1}">选择图片</el-button>
+                            <el-input v-model="add_param.option3" :isClear="isClear" v-show="o3==1"></el-input>
+                            <imageUpload v-model="add_param.option3" :isClear="isClear" v-show="o3==2" @getImageUrl="change3"></imageUpload>
+                        </div>
                         </el-form-item>
                         <el-form-item label="选项D">
-                            <div>
-                                <editor-bar v-model="add_param.option4" :isClear="isClear" @change="change"></editor-bar>
-                            </div>
+                           <div>
+                            <el-button @click="o4=1"  :class="{active:o4==1}">输入文字</el-button>
+                            <el-button @click="o4=2"  :class="{active:o4==1}">选择图片</el-button>
+                            <el-input v-model="add_param.option4" :isClear="isClear" v-show="o4==1"></el-input>
+                            <imageUpload v-model="add_param.option4" v-show="o4==2" :isClear="isClear" @getImageUrl="change4"></imageUpload>
+                        </div>
                         </el-form-item>
                         <el-form-item label="答案">
                             <el-radio-group v-model="add_param.answer">
@@ -307,6 +346,8 @@ import { selectQuestion, insertQuestion, deleteQuestion, updateQuestion } from '
 import { courseOption } from '../../../api/index';
 import { getChapterList } from '../../../api/index';
 import EditorBar from '../../common/myEditor';
+import upload from '../Upload';
+import imageUpload from '../ImageUpload';
 export default {
     name: 'test_mgr',
     data() {
@@ -351,6 +392,12 @@ export default {
             editor: null,
             editorContent: '',
             isClear: false,
+            cur:1,
+            o1:1,
+            o2:1,
+            o3:1,
+            o4:1,
+
         };
     },
     created() {
@@ -358,11 +405,25 @@ export default {
         courseOption().then(res=>{this.course_list = res});
     },
     components: {
-        EditorBar
+        EditorBar,
+        upload,
+        imageUpload
     },
     methods: {
+        setImageUrl(url) {
+            this.add_param.content = url;
+        },
         change(val) {
-            this.add_param.content = val
+            this.add_param.option1 = val;
+        },
+        change2(val2) {
+            this.add_param.option2 = val2;
+        },
+        change3(val3) {
+            this.add_param.option3 = val3;
+        },
+        change4(val4) {
+            this.add_param.option4 = val4;
         },
 		showAddDlg() {
 			this.add_editVisible = true;
@@ -392,6 +453,7 @@ export default {
             insertQuestion(this.add_param).then(res=>{
                 this.getData(); 
 				this.add_editVisible = false;
+                location. reload();
 				this.$message.success('添加成功');
             })
         },

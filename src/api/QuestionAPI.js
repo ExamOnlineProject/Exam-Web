@@ -33,3 +33,11 @@ export const insertQuestion = query => {
         params: query
     });
 };
+
+export const uploadImage = query => {
+    return request({
+		url: '/upload',
+        method: 'post',
+        params: query
+    });
+};
