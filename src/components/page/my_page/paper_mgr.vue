@@ -155,7 +155,7 @@
 		        <el-form-item label="题目：">
                     <el-tag style="">{{item.type}}</el-tag>
                     <template v-if="item.content.search('https')!==-1">
-                        <img :src="item.content" style="height: 150px;width: 150px;overflow: hidden"/>
+                        <img :src="item.content" style="height: 150px;width: 100%;overflow: hidden"/>
                     </template>
                     <template v-if="item.content.search('https')===-1">
                         {{item.content}}
@@ -163,16 +163,39 @@
                 </el-form-item>
                 <template v-if="item.type === '选择' ">
                     <el-form-item label="选项A：">
-                        <img :src="item.option1" style="height: 80px;width: 150px;overflow: hidden"/>
+                        <template v-if="item.option1.search('https')===-1">
+                            {{item.option1}}
+                        </template>
+                        <template v-if="item.option1.search('https')!==-1">
+                            <img :src="item.option1" style="height: 80px;width: 150px;overflow: hidden"/>
+                        </template>
+
                     </el-form-item>
                     <el-form-item label="选项B：">
-                        <img :src="item.option2" style="height: 80px;width: 150px;overflow: hidden"/>
+                        <template v-if="item.option2.search('https')===-1">
+                            {{item.option2}}
+                        </template>
+                        <template v-if="item.option2.search('https')!==-1">
+                            <img :src="item.option2" style="height: 80px;width: 150px;overflow: hidden"/>
+                        </template>
                     </el-form-item>
+
                     <el-form-item label="选项C：">
-                        <img :src="item.option3" style="height: 80px;width: 150px;overflow: hidden"/>
+                        <template v-if="item.option3.search('https')===-1">
+                            {{item.option3}}
+                        </template>
+                        <template v-if="item.option3.search('https')!==-1">
+                            <img :src="item.option3" style="height: 80px;width: 150px;overflow: hidden"/>
+                        </template>
                     </el-form-item>
+
                     <el-form-item label="选项D：">
-                        <img :src="item.option4" style="height: 80px;width: 150px;overflow: hidden"/>
+                        <template v-if="item.option4.search('https')===-1">
+                            {{item.option4}}
+                        </template>
+                        <template v-if="item.option4.search('https')!==-1">
+                            <img :src="item.option4" style="height: 80px;width: 150px;overflow: hidden"/>
+                        </template>
                     </el-form-item>
                 </template>
                 <el-form-item label="难度："> {{ item.difficulty }} </el-form-item>

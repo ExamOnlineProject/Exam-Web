@@ -104,7 +104,7 @@
 		                <el-option v-for="i in 15" :key="i" :label="i" :value="i"></el-option>
 		            </el-select>
 		        </el-form-item>
-				<el-form-item label="章节名" prop="chaptername">
+				<el-form-item label="章节名">
 				    <el-input v-model="add_param.chaptername"></el-input>
 				</el-form-item>
 		    </el-form>

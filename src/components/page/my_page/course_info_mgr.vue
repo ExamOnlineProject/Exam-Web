@@ -71,7 +71,7 @@
 
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
-            <el-form ref="form" :model="form" label-width="90px" :rules="rules">
+            <el-form ref="form" :model="form" label-width="90px">
 		        <el-form-item label="课程名" prop="coursename">
 		            <el-input v-model="form.coursename"></el-input>
 		        </el-form-item>
@@ -94,8 +94,8 @@
 		
 		<!-- 添加弹出框 -->
 		<el-dialog title="添加课程" :visible.sync="add_editVisible" width="30%">
-		    <el-form ref="form" :model="form" label-width="100px" :rules="rules">
-				<el-form-item label="课程名" prop="coursename">
+		    <el-form ref="add_param" :model="form" label-width="100px">
+				<el-form-item label="课程名">
 				    <el-input v-model="add_param.coursename"></el-input>
 				</el-form-item>
                 <el-form-item label="课程负责人">
@@ -147,9 +147,6 @@ export default {
             id: -1,
             course_list: '',
             teacher_list: '',
-            rules: {
-                coursename: [{ required: true, message: '请输入课程名', trigger: 'blur' }],
-            }
         };
     },
     created() {
@@ -241,12 +238,15 @@ export default {
 		},
         saveInsert() {
             this.$refs.add_param.validate(valid => {
-                if (valid) {
+                if (valid && this.add_param.coursename!='') {
                     insertCourse(this.add_param).then(res => {
                         this.$message.success(`新增成功`);
                         this.getData();
                         this.add_editVisible = false;
                     })
+                }else if (valid && this.add_param.coursename==''){
+                    this.$message.error("请正确填写课程名称");
+
                 }else{
                     this.$message.error("请正确填写信息");
                     return false;

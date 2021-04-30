@@ -50,7 +50,8 @@
                 <el-table-column type="selection" width="55" align="center"></el-table-column>
                 <el-table-column prop="subjectid" label="ID" width="55" align="center"></el-table-column>
 				<el-table-column prop="type" label="题目类型" width="80" align="center"></el-table-column>
-                <el-table-column prop="content" label="题目"></el-table-column>
+                <el-table-column prop="content" label="题目">
+                </el-table-column>
 				<el-table-column label="选项" align="center">
                     <template slot-scope="scope">
                         <span v-if="scope.row.type === '选择'">
@@ -323,7 +324,7 @@
                             </el-radio-group>
                         </el-form-item>
                     </template>
-                    <el-input  v-else v-model="add_param.content"></el-input>
+                    <el-input  v-else v-model="add_param.content" v-if="add_param.type===''"></el-input>
 		        </el-form-item>
                 <el-form-item label="难度">
 				    <el-select v-model="add_param.difficulty">
