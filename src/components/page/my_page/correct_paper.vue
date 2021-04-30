@@ -68,19 +68,59 @@
 		    <el-form ref="form" :model="form" v-for="(item,index) in test_list" :key="index" label-width="90px">
 		        <el-form-item label="题目：">
                     <el-tag>{{item.type}}</el-tag>
-                    {{ item.content }}
+                    <template v-if="item.content.search('https')!==-1">
+                        <img :src="item.content" style="height: 150px;width: 100%;overflow: hidden"/>
+                    </template>
+                    <template v-if="item.content.search('https')===-1">
+                        {{item.content}}
+                    </template>
                 </el-form-item>
                 <template v-if="item.type === '选择'">
-                    <el-form-item label="选项A："> {{ item.option1 }} </el-form-item>
-                    <el-form-item label="选项B："> {{ item.option2 }} </el-form-item>
-                    <el-form-item label="选项C："> {{ item.option3 }} </el-form-item>
-                    <el-form-item label="选项D："> {{ item.option4 }} </el-form-item>
+                    <el-form-item label="选项A：">
+                        <template v-if="item.option1.search('https')===-1">
+                            {{item.option1}}
+                        </template>
+                        <template v-if="item.option1.search('https')!==-1">
+                            <img :src="item.option1" style="height: 80px;width: 150px;overflow: hidden"/>
+                        </template>
+                    </el-form-item>
+                    <el-form-item label="选项B：">
+                        <template v-if="item.option2.search('https')===-1">
+                            {{item.option2}}
+                        </template>
+                        <template v-if="item.option2.search('https')!==-1">
+                            <img :src="item.option2" style="height: 80px;width: 150px;overflow: hidden"/>
+                        </template>
+                    </el-form-item>
+                    <el-form-item label="选项C：">
+                        <template v-if="item.option3.search('https')===-1">
+                            {{item.option3}}
+                        </template>
+                        <template v-if="item.option3.search('https')!==-1">
+                            <img :src="item.option3" style="height: 80px;width: 150px;overflow: hidden"/>
+                        </template>
+                    </el-form-item>
+                    <el-form-item label="选项D：">
+                        <template v-if="item.option4.search('https')===-1">
+                            {{item.option4}}
+                        </template>
+                        <template v-if="item.option4.search('https')!==-1">
+                            <img :src="item.option4" style="height: 80px;width: 150px;overflow: hidden"/>
+                        </template>
+                    </el-form-item>
                 </template>
                 <template>
                     <el-form-item v-if="item.type === '编程'" label="考生答案：">
-                        ftp:122.51.73.146/code/r{{form.recordId}}q{{item.questionid}}.zip
+                        {{item.stuAnswer}}
                     </el-form-item>
-                    <el-form-item v-else label="考生答案："> {{ item.stuAnswer }} </el-form-item>
+                    <el-form-item v-else label="考生答案：">
+                        <template v-if="item.stuAnswer.search('https')!==-1">
+                            <img :src="item.stuAnswer" style="height: 150px;width: 100%;overflow: hidden"/>
+                        </template>
+                        <template v-if="item.stuAnswer.search('https')===-1">
+                            {{item.stuAnswer}}
+                        </template>
+                    </el-form-item>
                 </template>
 
                 <el-form-item label="题目分值："> {{ item.score }} </el-form-item>
@@ -163,6 +203,7 @@ export default {
         handleEdit(index, row) {
             getTestsByRecordId({recordid: row.recordId}).then(res=>{
                 this.test_list = res.data
+                console.log(res.data)
             })
             this.idx = index;
             this.form = row;

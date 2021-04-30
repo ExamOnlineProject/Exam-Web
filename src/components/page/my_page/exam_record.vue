@@ -104,7 +104,10 @@
 
         <!-- 视频播放窗口 -->
         <el-dialog title="监控视频" :visible.sync="videoVisible" width="60%" height="60%">
-            <a>ftp:122.51.73.146/video/avi_{{ form.recordId }}.avi</a>
+            <video id="my-video" class="video-js vjs-default-skin" controls preload="auto" >
+                <source :src="src" >
+            </video>
+<!--            <a>ftp://49.234.61.127/pub/142/{{ form.recordId }}.avi</a>-->
             <span slot="footer" class="dialog-footer">
                 <el-button @click="videoVisible = false">关闭</el-button>
             </span>
@@ -136,7 +139,8 @@ export default {
             course_list: '',
             class_list: '',
             test_list: '',
-            stu_scors: []
+            stu_scors: [],
+            src:'ftp://49.234.61.127/pub/142/136467.mp4'
         };
     },
     created() {
