@@ -82,18 +82,58 @@
             <el-form ref="form" :model="form" v-for="item in this.test_list" :key="item.id" label-width="90px">
 		        <el-form-item label="题目：">
                     <el-tag>{{item.type}}</el-tag>
-                    {{ item.content }}
+                    <template v-if="item.content.search('https')!==-1">
+                        <img :src="item.content" style="height: 150px;width: 100%;overflow: hidden"/>
+                    </template>
+                    <template v-if="item.content.search('https')===-1">
+                        {{item.content}}
+                    </template>
                 </el-form-item>
                 <template v-if="item.type === '选择'">
-                    <el-form-item label="选项A："> {{ item.option1 }} </el-form-item>
-                    <el-form-item label="选项B："> {{ item.option2 }} </el-form-item>
-                    <el-form-item label="选项C："> {{ item.option3 }} </el-form-item>
-                    <el-form-item label="选项D："> {{ item.option4 }} </el-form-item>
+                    <el-form-item label="选项A：">
+                        <template v-if="item.option1.search('https')===-1">
+                            {{item.option1}}
+                        </template>
+                        <template v-if="item.option1.search('https')!==-1">
+                            <img :src="item.option1" style="height: 80px;width: 150px;overflow: hidden"/>
+                        </template>
+                    </el-form-item>
+                    <el-form-item label="选项B：">
+                        <template v-if="item.option2.search('https')===-1">
+                            {{item.option2}}
+                        </template>
+                        <template v-if="item.option2.search('https')!==-1">
+                            <img :src="item.option2" style="height: 80px;width: 150px;overflow: hidden"/>
+                        </template>
+                    </el-form-item>
+                    <el-form-item label="选项C：">
+                        <template v-if="item.option3.search('https')===-1">
+                            {{item.option3}}
+                        </template>
+                        <template v-if="item.option3.search('https')!==-1">
+                            <img :src="item.option3" style="height: 80px;width: 150px;overflow: hidden"/>
+                        </template>
+                    </el-form-item>
+                    <el-form-item label="选项D：">
+                        <template v-if="item.option4.search('https')===-1">
+                            {{item.option4}}
+                        </template>
+                        <template v-if="item.option4.search('https')!==-1">
+                            <img :src="item.option4" style="height: 80px;width: 150px;overflow: hidden"/>
+                        </template>
+                    </el-form-item>
                 </template>
                 <el-form-item label="分值："> {{ item.score }} </el-form-item>
                 <el-form-item label="得分："> {{ item.stuScore }} </el-form-item>
                 <el-form-item v-if="item.type==='选择'" label="参考答案："> {{ item.answer }} </el-form-item>
-                <el-form-item label="学生答案："> {{ item.stuAnswer }} </el-form-item>
+                <el-form-item label="学生答案：">
+                    <template v-if="item.stuAnswer.search('https')!==-1">
+                        <img :src="item.stuAnswer" style="height: 150px;width: 100%;overflow: hidden"/>
+                    </template>
+                    <template v-if="item.stuAnswer.search('https')===-1">
+                        {{item.stuAnswer}}
+                    </template>
+                </el-form-item>
                 <hr/>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -104,10 +144,7 @@
 
         <!-- 视频播放窗口 -->
         <el-dialog title="监控视频" :visible.sync="videoVisible" width="60%" height="60%">
-            <video id="my-video" class="video-js vjs-default-skin" controls preload="auto" >
-                <source :src="src" >
-            </video>
-<!--            <a>ftp://49.234.61.127/pub/142/{{ form.recordId }}.avi</a>-->
+            <a>ftp://49.234.61.127/pub/142/{{ form.recordId }}.avi</a>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="videoVisible = false">关闭</el-button>
             </span>
@@ -140,7 +177,6 @@ export default {
             class_list: '',
             test_list: '',
             stu_scors: [],
-            src:'ftp://49.234.61.127/pub/142/136467.mp4'
         };
     },
     created() {
@@ -179,7 +215,6 @@ export default {
         // 保存编辑
         saveEdit() {
             this.editVisible = false;
-            this.$message.success(`修改第 ${this.idx + 1} 行成功`);
             this.$set(this.tableData, this.idx, this.form);
         },
         // 分页导航
