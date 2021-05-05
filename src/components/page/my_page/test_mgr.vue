@@ -253,6 +253,8 @@
                             <el-input v-model="add_param.content" v-show="cur==1"></el-input>
                             <imageUpload v-model="add_param.content" v-show="cur==2" @getImageUrl="setImageUrl"></imageUpload>
                         </div>
+
+
                     </template>
                      <template v-if="add_param.type === '编程'">
                         <div>
@@ -326,6 +328,9 @@
                     </template>
                     <el-input  v-else v-model="add_param.content" v-if="add_param.type===''"></el-input>
 		        </el-form-item>
+                <el-form-item v-if="add_param.type==='填空'" label="答案">
+                    <el-input v-model="add_param.answer"></el-input>
+                </el-form-item>
                 <el-form-item label="难度">
 				    <el-select v-model="add_param.difficulty">
 		            	<el-option label="简单" value="简单"></el-option>
