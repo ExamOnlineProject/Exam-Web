@@ -299,12 +299,13 @@ export default {
 				difficulty: '',
 				questionids: []
 			}
+			this.chapterid=''
 		},
 		chapterOption(){
 			getChapterList({id: this.paper.courseid}).then(res=>{ this.chapter_list = res })
 		},
 		questionOption(){
-			questionOption({id: this.chapterid}).then(res=>{ this.question_list = res })
+			questionOption({id: this.chapterid,type:this.strategy.type}).then(res=>{ this.question_list = res })
 		},
 		handleSearch() {
             this.$set(this.query, 'pageIndex', 1);

@@ -134,6 +134,8 @@
                     <el-col :span="4">
                         <el-input placeholder="请输入得分" v-model="stu_score[index]"></el-input>
                     </el-col>
+
+                    <label v-if="stu_score[index]>item.score" style="color: red">请输入合法分数</label>
                 </el-form-item>
                 <hr/>
 		    </el-form>
