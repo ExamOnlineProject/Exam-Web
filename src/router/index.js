@@ -4,6 +4,7 @@ import Router from 'vue-router';
 Vue.use(Router);
 
 export default new Router({
+    mode: 'history',
     routes: [
         {
             path: '/',
@@ -69,6 +70,16 @@ export default new Router({
 				    path: '/blacklist_mgr',
 				    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/blacklist_mgr.vue'),
 				    meta: { title: '通讯黑名单管理' }
+				},
+                {
+				    path: '/test_monitor',
+				    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/test_monitor.vue'),
+				    meta: { title: '考试监控' }
+				},
+                {
+				    path: '/test_monitor_live',
+				    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/test_monitor_live.vue'),
+				    meta: { title: '实时监控' }
 				},
 				{
 				    path: '/course_info_mgr',
