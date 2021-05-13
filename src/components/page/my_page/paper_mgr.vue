@@ -42,6 +42,7 @@
             >
                 <el-table-column type="selection" width="55" align="center"></el-table-column>
                 <el-table-column prop="paperId" label="ID" width="55" align="center"></el-table-column>
+                <el-table-column prop="papername" label="考试名称" width="100" align="center"></el-table-column>
                 <el-table-column label="考试模式" width="100" align="center">
                     <template slot-scope="scope">
                         <a v-if="scope.row.pattern===1">限通信模式</a>

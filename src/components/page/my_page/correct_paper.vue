@@ -228,6 +228,7 @@ export default {
                 }
                 if (score === undefined) {score = 0}
                 this.correctData.creditDTOS.push({'questionid': questionid,'credit': score});
+                location.reload();
             }
             submitScore(this.correctData).then(res=>{
                 this.$message.success('批改提交成功');
