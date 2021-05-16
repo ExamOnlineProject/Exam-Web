@@ -79,11 +79,14 @@ export default new Router({
                 {
 				    path: '/test_monitor_live',
 				    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/test_monitor_live.vue'),
+<<<<<<< HEAD
 				    meta: { title: '学生监控' }
 				},
                 {
 				    path: '/monitor',
 				    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/monitor.vue'),
+=======
+>>>>>>> a2f7a7fcd0d6b04666ea3eb42b32058a82209f4e
 				    meta: { title: '实时监控' }
 				},
 				{

@@ -10,10 +10,18 @@
   "dependencies": {
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
+<<<<<<< HEAD
     "element-ui": "^2.15.1",
     "flv.js": "^1.5.0",
     "mavon-editor": "^2.9.1",
     "vue": "^2.6.12",
+=======
+    "element-ui": "^2.11.0",
+    "flv.js": "^1.5.0",
+    "mavon-editor": "^2.6.17",
+    "videojs-contrib-hls": "^5.15.0",
+    "vue": "^2.6.10",
+>>>>>>> a2f7a7fcd0d6b04666ea3eb42b32058a82209f4e
     "vue-better-verify": "^1.0.0",
     "vue-cropperjs": "^3.0.0",
     "vue-i18n": "^8.24.4",
@@ -21,7 +29,11 @@
     "vue-router": "^3.5.1",
     "vue-schart": "^2.0.0",
     "vue-video-player": "^5.0.2",
+<<<<<<< HEAD
     "vuedraggable": "^2.24.3",
+=======
+    "vuedraggable": "^2.17.0",
+>>>>>>> a2f7a7fcd0d6b04666ea3eb42b32058a82209f4e
     "wangeditor": "^3.1.1"
   },
   "devDependencies": {
