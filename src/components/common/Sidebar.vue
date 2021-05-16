@@ -139,7 +139,12 @@ export default {
 				    icon: 'el-icon-pie-chart',
 				    index: 'blacklist_mgr',
 				    title: '通讯黑名单管理'
-				}
+				},
+                {
+				    icon: 'el-icon-pie-chart',
+				    index: 'test_monitor',
+				    title: '考试监控'
+				},
             ]
         };
     },

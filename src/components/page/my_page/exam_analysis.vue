@@ -2,38 +2,20 @@
     <div>
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item>
-                    <i class="el-icon-lx-cascades"></i> 考试分析
-                </el-breadcrumb-item>
+                <el-breadcrumb-item> <i class="el-icon-lx-cascades"></i> 考试分析 </el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="container">
             <div class="handle-box">
                 <el-select v-model="table_select.paperid" placeholder="请选择试卷" class="handle-select mr10">
-                    <el-option
-                        v-for="item in paper_list"
-                        :key="item.paperid"
-                        :label="item.paperid"
-                        :value="item.paperid">
-                    </el-option>
+                    <el-option v-for="item in paper_list" :key="item.paperid" :label="item.paperid" :value="item.paperid"> </el-option>
                 </el-select>
-				<el-select v-model="table_select.classid" placeholder="请选择班级" class="handle-select mr10">
-					<el-option
-                        v-for="item in class_list"
-                        :key="item.classid"
-                        :label="item.classname"
-                        :value="item.classid">
-                    </el-option>
-				</el-select>
+                <el-select v-model="table_select.classid" placeholder="请选择班级" class="handle-select mr10">
+                    <el-option v-for="item in class_list" :key="item.classid" :label="item.classname" :value="item.classid"> </el-option>
+                </el-select>
                 <el-button type="success" @click="getTableData">查询</el-button>
             </div>
-            <el-table
-                :data="tableData"
-                border
-                class="table"
-                ref="multipleTable"
-                header-cell-class-name="table-header"
-            >
+            <el-table :data="tableData" border class="table" ref="multipleTable" header-cell-class-name="table-header">
                 <el-table-column prop="questionid" label="ID" width="55" align="center"></el-table-column>
                 <el-table-column prop="content" label="题目"></el-table-column>
                 <el-table-column prop="maxnum" label="最高分" align="center"></el-table-column>
@@ -46,58 +28,33 @@
         <el-col :span="12" :offset="6">
             <div class="schart-box">
                 <el-select v-model="bar_select.paperid" placeholder="请选择试卷" @change="getClassList(bar_select.paperid)">
-                    <el-option
-                        v-for="item in paper_list"
-                        :key="item.paperid"
-                        :label="item.paperid"
-                        :value="item.paperid">
-                    </el-option>
+                    <el-option v-for="item in paper_list" :key="item.paperid" :label="item.paperid" :value="item.paperid"> </el-option>
                 </el-select>
                 <el-select v-model="bar_select.classids" multiple placeholder="请选择班级">
-                    <el-option
-                        v-for="item in class_list"
-                        :key="item.classid"
-                        :label="item.classname"
-                        :value="item.classid">
-                    </el-option>
+                    <el-option v-for="item in class_list" :key="item.classid" :label="item.classname" :value="item.classid"> </el-option>
                 </el-select>
                 <el-button type="success" @click="getBarData">查询</el-button>
                 <schart class="schart" canvasId="bar" :options="bar_option"></schart>
             </div>
         </el-col>
-		
+
         <el-col :span="12" :offset="6">
             <div class="schart-box">
                 <el-select v-model="pie_select.paperid" placeholder="请选择试卷" @change="getClassList(pie_select.paperid)">
-                    <el-option
-                        v-for="item in paper_list"
-                        :key="item.paperid"
-                        :label="item.paperid"
-                        :value="item.paperid">
-                    </el-option>
+                    <el-option v-for="item in paper_list" :key="item.paperid" :label="item.paperid" :value="item.paperid"> </el-option>
                 </el-select>
                 <el-select v-model="pie_select.classid" placeholder="请选择班级">
-                    <el-option
-                        v-for="item in class_list"
-                        :key="item.classid"
-                        :label="item.classname"
-                        :value="item.classid">
-                    </el-option>
+                    <el-option v-for="item in class_list" :key="item.classid" :label="item.classname" :value="item.classid"> </el-option>
                 </el-select>
                 <el-button type="success" @click="getPieData">查询</el-button>
                 <schart class="schart" canvasId="pie" :options="pie_option"></schart>
             </div>
         </el-col>
-        
+
         <el-col :span="12" :offset="6">
             <div class="schart-box">
                 <el-select v-model="line_select.courseid" placeholder="请选择课程" class="handle-select mr10">
-                    <el-option
-                        v-for="item in course_list"
-                        :key="item.id"
-                        :label="item.name"
-                        :value="item.id">
-                    </el-option>
+                    <el-option v-for="item in course_list" :key="item.id" :label="item.name" :value="item.id"> </el-option>
                 </el-select>
                 <!-- <el-select v-model="line_select.classid" placeholder="请选择班级" class="handle-select mr10">
                     <el-option
@@ -115,20 +72,20 @@
                     range-separator="至"
                     start-placeholder="开始日期"
                     end-placeholder="结束日期"
-                    align="right">
+                    align="right"
+                >
                 </el-date-picker>
                 <el-button type="success" @click="getLineData">查询</el-button>
                 <schart class="schart" canvasId="line" :options="line_option"></schart>
             </div>
         </el-col>
-
     </div>
 </template>
 
 <script>
 import Schart from 'vue-schart';
 import { selectClassByPaper, selectSpread, getAllPaper, selectEverQues, getLineChart, selectAverage } from '../../../api/ChartAPI';
-import { courseOption } from '../../../api/index'
+import { courseOption } from '../../../api/index';
 export default {
     name: 'user',
     components: {
@@ -138,31 +95,35 @@ export default {
         return {
             tableData: [],
             pickerOptions: {
-                shortcuts: [{
-                    text: '最近一周',
-                    onClick(picker) {
-                    const end = new Date();
-                    const start = new Date();
-                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-                    picker.$emit('pick', [start, end]);
+                shortcuts: [
+                    {
+                        text: '最近一周',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    },
+                    {
+                        text: '最近一个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                            picker.$emit('pick', [start, end]);
+                        }
+                    },
+                    {
+                        text: '最近三个月',
+                        onClick(picker) {
+                            const end = new Date();
+                            const start = new Date();
+                            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+                            picker.$emit('pick', [start, end]);
+                        }
                     }
-                }, {
-                    text: '最近一个月',
-                    onClick(picker) {
-                    const end = new Date();
-                    const start = new Date();
-                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-                    picker.$emit('pick', [start, end]);
-                    }
-                }, {
-                    text: '最近三个月',
-                    onClick(picker) {
-                    const end = new Date();
-                    const start = new Date();
-                    start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-                    picker.$emit('pick', [start, end]);
-                    }
-                }]
+                ]
             },
             table_select: {
                 paperid: '',
@@ -248,68 +209,74 @@ export default {
         };
     },
     created() {
-        getAllPaper().then(res=>{ this.paper_list = res })
-        courseOption().then(res=>{ this.course_list = res })
+        getAllPaper().then(res => {
+            this.paper_list = res;
+        });
+        courseOption().then(res => {
+            this.course_list = res;
+        });
     },
     methods: {
-        getClassList(paperid){
-            selectClassByPaper({paperid: paperid}).then(res=>{ this.class_list = res })
+        getClassList(paperid) {
+            selectClassByPaper({ paperid: paperid }).then(res => {
+                this.class_list = res;
+            });
         },
         getPieData() {
-            if (this.pie_select.paperid === ''){
-                this.$message.error('请选择试卷')
+            if (this.pie_select.paperid === '') {
+                this.$message.error('请选择试卷');
             } else {
-                selectSpread(this.pie_select).then(res=>{
+                selectSpread(this.pie_select).then(res => {
                     this.pie_option.datasets[0].data = res;
-                })
+                });
             }
         },
         getLineData() {
-            if (this.line_select.courseid === '' || this.line_select.line_time === ''){
-                this.$message.error('请选择课程或时间')
+            if (this.line_select.courseid === '' || this.line_select.line_time === '') {
+                this.$message.error('请选择课程或时间');
             } else {
-                getLineChart(this.line_select).then(res=>{
+                getLineChart(this.line_select).then(res => {
                     this.line_option.labels = [];
                     this.line_option.datasets[0].data = [];
                     this.line_option.datasets[1].data = [];
                     this.line_option.datasets[2].data = [];
-                    for(var i=0;i<res.length;i++){
+                    for (var i = 0; i < res.length; i++) {
                         this.line_option.labels.push(res[i].time);
                         this.line_option.datasets[0].data.push(res[i].maxScore);
                         this.line_option.datasets[1].data.push(res[i].avgScore);
                         this.line_option.datasets[2].data.push(res[i].minScore);
                     }
-                })
+                });
             }
         },
         getTableData() {
-            if (this.table_select.paperid === ''){
-                this.$message.error('请选择试卷')
+            if (this.table_select.paperid === '') {
+                this.$message.error('请选择试卷');
             } else {
-                selectEverQues(this.table_select).then(res=>{
+                selectEverQues(this.table_select).then(res => {
                     this.tableData = res;
-                })
-            }    
+                });
+            }
         },
         getBarData() {
-            if (this.bar_select.paperid === ''){
-                this.$message.error('请选择试卷')
+            if (this.bar_select.paperid === '') {
+                this.$message.error('请选择试卷');
             } else {
-                selectAverage(this.bar_select).then(res=>{
+                selectAverage(this.bar_select).then(res => {
                     this.bar_option.labels = [];
                     this.bar_option.datasets[0].data = [];
                     this.bar_option.datasets[1].data = [];
                     this.bar_option.datasets[2].data = [];
                     this.bar_option.datasets[3].data = [];
-                    for(var i=0;i<res.length;i++){
+                    for (var i = 0; i < res.length; i++) {
                         this.bar_option.labels.push(res[i].classname);
                         this.bar_option.datasets[0].data.push(res[i].maxScore);
                         this.bar_option.datasets[1].data.push(res[i].average);
                         this.bar_option.datasets[2].data.push(res[i].minScore);
                         this.bar_option.datasets[3].data.push(res[i].variance);
                     }
-                    console.log(this.bar_option)
-                })
+                    console.log(this.bar_option);
+                });
             }
         }
     }

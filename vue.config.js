@@ -2,6 +2,7 @@ module.exports = {
     publicPath: './',
     assetsDir: 'static',
     productionSourceMap: false,
+    filenameHashing: false,
     // devServer: {
     //     proxy: {
     //         '/api':{

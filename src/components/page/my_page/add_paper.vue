@@ -10,7 +10,10 @@
         </div>
         <div class="container">
             <div class="form-box">
-                <el-form ref="form" :model="form" label-width="120px" style="width: 1000px;">
+                <el-form ref="form" :model="form" label-width="120px" style=" width: 1000px;">
+                    <el-form-item label="考试名称">
+                        <el-input v-model="paper.papername" style="width: 50%"/>
+                    </el-form-item>
 					<el-form-item label="课程">
 						<el-select v-model="paper.courseid" placeholder="课程" @change="chapterOption" class="handle-select mr10">
 							<el-option
@@ -257,7 +260,8 @@ export default {
                 finishtime: '',
 				pattern: '',
 				ismonitor: '',
-				strategyDTOS:[]
+				strategyDTOS:[],
+                papername:''
 			},
 			strategy:{
 				type: '',
