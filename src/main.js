@@ -12,7 +12,6 @@ import 'babel-polyfill';
 
 import VideoPlayer from 'vue-video-player'
 import 'video.js/dist/video-js.css'
-<<<<<<< HEAD
 
 import Router from 'vue-router'
 
@@ -22,12 +21,6 @@ Router.prototype.push = function push(location) {
 }
 
 Vue.use(VideoPlayer)
-=======
-import hls from 'videojs-contrib-hls'
-
-Vue.use(VideoPlayer)
-Vue.use(hls)
->>>>>>> a2f7a7fcd0d6b04666ea3eb42b32058a82209f4e
 
 Vue.config.productionTip = false;
 Vue.use(VueI18n);
