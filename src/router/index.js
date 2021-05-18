@@ -25,40 +25,40 @@ export default new Router({
                     component: () => import(/* webpackChunkName: "icon" */ '../components/page/Icon.vue'),
                     meta: { title: '自定义图标' }
                 },
-				{
-				    path: '/paper_mgr',
-				    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/paper_mgr.vue'),
-				    meta: { title: '考试管理' }
+                {
+                    path: '/paper_mgr',
+                    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/paper_mgr.vue'),
+                    meta: { title: '考试管理' }
                 },
                 {
-				    path: '/student_mgr',
-				    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/student_mgr.vue'),
-				    meta: { title: '学生管理' }
+                    path: '/student_mgr',
+                    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/student_mgr.vue'),
+                    meta: { title: '学生管理' }
                 },
                 {
-				    path: '/teacher_mgr',
-				    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/teacher_mgr.vue'),
-				    meta: { title: '教师管理' }
+                    path: '/teacher_mgr',
+                    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/teacher_mgr.vue'),
+                    meta: { title: '教师管理' }
                 },
                 {
                     path: '/admin_mgr',
                     component: () => import(/* webpackChunkName: "table" */ '../components/page/my_page/admin_mgr.vue'),
                     meta: { title: '管理员' }
                 },
-				{
-				    path: '/add_paper',
-				    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/add_paper.vue'),
-				    meta: { title: '新增考试' }
+                {
+                    path: '/add_paper',
+                    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/add_paper.vue'),
+                    meta: { title: '新增考试' }
                 },
                 {
-				    path: '/attend_class_mgr',
-				    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/attend_class_mgr.vue'),
-				    meta: { title: '上课管理' }
-				},
-				{
-				    path: '/class_mgr',
-				    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/class_mgr.vue'),
-				    meta: { title: '班级管理' }
+                    path: '/attend_class_mgr',
+                    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/attend_class_mgr.vue'),
+                    meta: { title: '上课管理' }
+                },
+                {
+                    path: '/class_mgr',
+                    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/class_mgr.vue'),
+                    meta: { title: '班级管理' }
                 },
                 {
                     path: '/chapter_mgr',
@@ -66,59 +66,56 @@ export default new Router({
                     meta: { title: '章节管理' },
                     hidden:true,
                 },
-				{
-				    path: '/blacklist_mgr',
-				    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/blacklist_mgr.vue'),
-				    meta: { title: '通讯黑名单管理' }
-				},
                 {
-				    path: '/test_monitor',
-				    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/test_monitor.vue'),
-				    meta: { title: '考试监控' }
-				},
+                    path: '/blacklist_mgr',
+                    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/blacklist_mgr.vue'),
+                    meta: { title: '通讯黑名单管理' }
+                },
                 {
-				    path: '/test_monitor_live',
-				    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/test_monitor_live.vue'),
-<<<<<<< HEAD
-				    meta: { title: '学生监控' }
-				},
+                    path: '/test_monitor',
+                    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/test_monitor.vue'),
+                    meta: { title: '考试监控' }
+                },
                 {
-				    path: '/monitor',
-				    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/monitor.vue'),
-=======
->>>>>>> a2f7a7fcd0d6b04666ea3eb42b32058a82209f4e
-				    meta: { title: '实时监控' }
-				},
-				{
-				    path: '/course_info_mgr',
-				    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/course_info_mgr.vue'),
-				    meta: { title: '课程管理' }
-				},
-				{
-				    path: '/teaching_info_mgr',
-				    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/teaching_info_mgr.vue'),
-				    meta: { title: '授课管理' }
-				},
-				{
-				    path: '/correct_paper',
-				    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/correct_paper.vue'),
-				    meta: { title: '批改试卷' }
-				},
-				{
-				    path: '/exam_record',
-				    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/exam_record.vue'),
-				    meta: { title: '考试记录' }
-				},
-				{
-				    path: '/exam_analysis',
-				    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/exam_analysis.vue'),
-				    meta: { title: '考试分析' }
-				},
-				{
-				    path: '/test_mgr',
-				    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/test_mgr.vue'),
-				    meta: { title: '试题管理' }
-				},
+                    path: '/test_monitor_live',
+                    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/test_monitor_live.vue'),
+                    meta: { title: '学生监控' }
+                },
+                {
+                    path: '/monitor',
+                    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/monitor.vue'),
+                    meta: { title: '实时监控' }
+                },
+                {
+                    path: '/course_info_mgr',
+                    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/course_info_mgr.vue'),
+                    meta: { title: '课程管理' }
+                },
+                {
+                    path: '/teaching_info_mgr',
+                    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/teaching_info_mgr.vue'),
+                    meta: { title: '授课管理' }
+                },
+                {
+                    path: '/correct_paper',
+                    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/correct_paper.vue'),
+                    meta: { title: '批改试卷' }
+                },
+                {
+                    path: '/exam_record',
+                    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/exam_record.vue'),
+                    meta: { title: '考试记录' }
+                },
+                {
+                    path: '/exam_analysis',
+                    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/exam_analysis.vue'),
+                    meta: { title: '考试分析' }
+                },
+                {
+                    path: '/test_mgr',
+                    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/test_mgr.vue'),
+                    meta: { title: '试题管理' }
+                },
                 {
                     path: '/tabs',
                     component: () => import(/* webpackChunkName: "tabs" */ '../components/page/Tabs.vue'),
