@@ -2,26 +2,14 @@
     <div>
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item>
-                    <i class="el-icon-lx-cascades"></i> 黑名单管理
-                </el-breadcrumb-item>
+                <el-breadcrumb-item> <i class="el-icon-lx-cascades"></i> 黑名单管理 </el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="container">
             <div class="handle-box">
-                <el-button
-                    type="primary"
-                    icon="el-icon-delete"
-                    class="handle-del mr10"
-                    @click="delAllSelection"
-                >批量删除</el-button>
+                <el-button type="primary" icon="el-icon-delete" class="handle-del mr10" @click="delAllSelection">批量删除</el-button>
                 <el-select v-model="query.type" placeholder="类型" class="handle-select mr10">
-                    <el-option
-                        v-for="item in type_list"
-                        :key="item"
-                        :label="item"
-                        :value="item">
-                    </el-option>
+                    <el-option v-for="item in type_list" :key="item" :label="item" :value="item"> </el-option>
                 </el-select>
             </div>
             <el-table
@@ -35,21 +23,14 @@
                 <el-table-column type="selection" width="55" align="center"></el-table-column>
                 <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
                 <el-table-column prop="name" label="程序名" align="center"></el-table-column>
-				<el-table-column prop="type" label="程序类型" align="center"></el-table-column>
+                <el-table-column prop="type" label="程序类型" align="center"></el-table-column>
                 <el-table-column prop="process" label="进程名" align="center"></el-table-column>
                 <el-table-column label="操作" width="180" align="center">
                     <template slot-scope="scope">
-                        <el-button
-                            type="text"
-                            icon="el-icon-edit"
-                            @click="handleEdit(scope.$index, scope.row)"
-                        >编辑</el-button>
-                        <el-button
-                            type="text"
-                            icon="el-icon-delete"
-                            class="red"
-                            @click="handleDelete(scope.$index, scope.row)"
-                        >删除</el-button>
+                        <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                        <el-button type="text" icon="el-icon-delete" class="red" @click="handleDelete(scope.$index, scope.row)"
+                            >删除</el-button
+                        >
                     </template>
                 </el-table-column>
             </el-table>
@@ -63,54 +44,52 @@
                     @current-change="handlePageChange"
                 ></el-pagination>
             </div>
-		<el-button type="primary" @click="showAddDlg">添加黑名单程序</el-button>
+            <el-button type="primary" @click="showAddDlg">添加黑名单程序</el-button>
         </div>
 
         <!-- 编辑弹出框 -->
         <el-dialog title="编辑" :visible.sync="editVisible" width="30%">
             <el-form ref="form" :model="form" label-width="70px">
-		        <el-form-item label="程序名">
-		            <el-input v-model="form.name"></el-input>
-		        </el-form-item>
-		        <el-form-item label="类型">
-		            <el-input v-model="form.type"></el-input>
-		        </el-form-item>
-				<el-form-item label="进程名">
-				    <el-input v-model="form.process"></el-input>
-				</el-form-item>
+                <el-form-item label="程序名">
+                    <el-input v-model="form.name"></el-input>
+                </el-form-item>
+                <el-form-item label="类型">
+                    <el-input v-model="form.type"></el-input>
+                </el-form-item>
+                <el-form-item label="进程名">
+                    <el-input v-model="form.process"></el-input>
+                </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="editVisible = false">取 消</el-button>
                 <el-button type="primary" @click="saveEdit">确 定</el-button>
             </span>
         </el-dialog>
-		
-		<!-- 添加弹出框 -->
-		<el-dialog title="添加黑名单进程" :visible.sync="add_editVisible" width="30%">
-		    <el-form ref="form" :model="form" label-width="70px">
+
+        <!-- 添加弹出框 -->
+        <el-dialog title="添加黑名单进程" :visible.sync="add_editVisible" width="30%">
+            <el-form ref="form" :model="form" label-width="70px">
                 <div>
                     <el-form-item label="程序名">
-                        <el-input type="text" v-model="add_param.name" v-verify.cname="smsVerify"></el-input>
+                        <el-input type="text" v-model="add_param.name"></el-input>
                     </el-form-item>
-                   <div class="red" v-if="!smsVerify.empty">非法不合法，请检查输入</div>
+                    <div class="red" v-if="!smsVerify.empty">非法不合法，请检查输入</div>
                 </div>
-		        <el-form-item label="类型">
-		            <el-input v-model="add_param.type"></el-input>
-		        </el-form-item>
+                <el-form-item label="类型">
+                    <el-input v-model="add_param.type"></el-input>
+                </el-form-item>
                 <div>
                     <el-form-item label="进程名">
-                        <el-input v-model="add_param.process"  :need="true" v-verify.pro="smsVerify"></el-input>
+                        <el-input v-model="add_param.process" :need="true" v-verify.pro="smsVerify"></el-input>
                         <div class="red" v-if="!smsVerify.empty">非法不合法，请检查输入</div>
                     </el-form-item>
                 </div>
-
-		    </el-form>
-		    <span slot="footer" class="dialog-footer">
-		        <el-button @click="add_editVisible = false">取 消</el-button>
-		        <el-button type="primary" @click="addBlackList">确 定</el-button>
-		    </span>
-		</el-dialog>
-			
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="add_editVisible = false">取 消</el-button>
+                <el-button type="primary" @click="addBlackList">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -118,22 +97,22 @@
 import { getBlackListTypes } from '../../../api/index.js';
 import { selectBlackList, deleteBlackList, updateBlackList, insertBlackList } from '../../../api/BlackListAPI.js';
 import '../../../api/BlackListAPI.js';
-import Vue from "vue"
-import vueVerify from "vue-better-verify"
+import Vue from 'vue';
+import vueVerify from 'vue-better-verify';
 
-Vue.use(vueVerify,{
+Vue.use(vueVerify, {
     regExp: {
         cname: /^[\u4e00-\u9fa5]{1,20}$/, // 添加的自定义正则
-        pro:/[\s\S]/
-    },
-})
+        pro: /[\s\S]/
+    }
+});
 export default {
     name: 'user',
     data() {
         return {
-            smsVerify:{
-                isFirst:true,
-                empty:true
+            smsVerify: {
+                isFirst: true,
+                empty: true
             },
             query: {
                 type: '',
@@ -148,8 +127,8 @@ export default {
             tableData: [],
             idList: [],
             editVisible: false,
-			add_editVisible: false,
-			add_batch: false,
+            add_editVisible: false,
+            add_batch: false,
             pageTotal: 0,
             form: {},
             idx: -1,
@@ -159,15 +138,17 @@ export default {
     },
     created() {
         this.getData();
-        getBlackListTypes().then(res=>{ this.type_list = res });
+        getBlackListTypes().then(res => {
+            this.type_list = res;
+        });
     },
     methods: {
-		showAddDlg() {
-			this.add_editVisible = true
-		},
-		showAddsDlg() {
-			this.add_batch = true
-		},
+        showAddDlg() {
+            this.add_editVisible = true;
+        },
+        showAddsDlg() {
+            this.add_batch = true;
+        },
         // 获取 easy-mock 的模拟数据
         getData() {
             selectBlackList(this.query).then(res => {
@@ -181,53 +162,50 @@ export default {
             this.$set(this.query, 'pageIndex', 1);
             this.getData();
         },
-        addBlackList(){
-		    this.$verify.doVerify();
-		    if(this.$verify.default.all){
-		        console.log("yanz")
-                insertBlackList(this.add_param).then(res=>{
-                    if(res.code===500){
+        addBlackList() {
+            this.$verify.doVerify();
+            if (this.$verify.default.all) {
+                console.log('yanz');
+                insertBlackList(this.add_param).then(res => {
+                    if (res.code === 500) {
                         this.getData();
                         this.add_editVisible = false;
                         this.$message.error(res.msg);
-                    }
-                    else{
+                    } else {
                         this.getData();
                         this.add_editVisible = false;
                         this.$message.success('添加成功');
                     }
-                })
+                });
             }
-
-		},
+        },
         // 删除操作
         handleDelete(index, row) {
             // 二次确认删除
             this.$confirm('确定要删除吗？', '提示', {
                 type: 'warning'
-            })
-                .then(() => {
-					deleteBlackList({ids: [row.id]}).then(res=>{
-						this.getData();
-						this.$message.success('删除成功');
-					})
-                })
+            }).then(() => {
+                deleteBlackList({ ids: [row.id] }).then(res => {
+                    this.getData();
+                    this.$message.success('删除成功');
+                });
+            });
         },
         // 多选操作
         handleSelectionChange(val) {
-			this.idList = [];
-			for (var i=0;i<val.length;i++){
-				this.idList.push(val[i].id)
-			}
+            this.idList = [];
+            for (var i = 0; i < val.length; i++) {
+                this.idList.push(val[i].id);
+            }
         },
         delAllSelection() {
-			if (this.idList.length>0){
-				deleteBlackList({ids: this.idList}).then(res=>{
-					this.$message.error(res.msg);
-					this.query.pageIndex = 1;
-					this.getData();
-				});
-			}
+            if (this.idList.length > 0) {
+                deleteBlackList({ ids: this.idList }).then(res => {
+                    this.$message.error(res.msg);
+                    this.query.pageIndex = 1;
+                    this.getData();
+                });
+            }
         },
         // 编辑操作
         handleEdit(index, row) {
@@ -239,13 +217,12 @@ export default {
         saveEdit() {
             this.editVisible = false;
             this.$verify.doVerify();
-            if(this.$verify.default.all){
-                updateBlackList(this.form).then(res=>{
+            if (this.$verify.default.all) {
+                updateBlackList(this.form).then(res => {
                     this.$message.success(`修改第 ${this.idx + 1} 行成功`);
                     this.getData();
-                })
+                });
             }
-
         },
         // 分页导航
         handlePageChange(val) {
@@ -285,7 +262,7 @@ export default {
     width: 40px;
     height: 40px;
 }
-.red{
+.red {
     color: deeppink;
 }
 </style>

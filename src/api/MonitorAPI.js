@@ -8,7 +8,6 @@ export const getMonitorPaper = query => {
         params: query
     });
 };
-<<<<<<< HEAD
 
 export const selectMontiorStudent = query => { 
     return request({
@@ -17,5 +16,3 @@ export const selectMontiorStudent = query => {
         params: query
     });
 };
-=======
->>>>>>> a2f7a7fcd0d6b04666ea3eb42b32058a82209f4e
