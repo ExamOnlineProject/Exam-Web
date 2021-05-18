@@ -156,7 +156,7 @@
 		        <el-form-item label="题目：">
                     <el-tag style="">{{item.type}}</el-tag>
                     <template v-if="item.content.search('https')!==-1">
-                        <img :src="item.content" style="height: 150px;width: 100%;overflow: hidden"/>
+                        <img :src="item.content" style="overflow: hidden"/>
                     </template>
                     <template v-if="item.content.search('https')===-1">
                         {{item.content}}
@@ -168,7 +168,7 @@
                             {{item.option1}}
                         </template>
                         <template v-if="item.option1.search('https')!==-1">
-                            <img :src="item.option1" style="height: 80px;width: 150px;overflow: hidden"/>
+                            <img :src="item.option1" style="overflow: hidden"/>
                         </template>
 
                     </el-form-item>
@@ -177,7 +177,7 @@
                             {{item.option2}}
                         </template>
                         <template v-if="item.option2.search('https')!==-1">
-                            <img :src="item.option2" style="height: 80px;width: 150px;overflow: hidden"/>
+                            <img :src="item.option2" style="overflow: hidden"/>
                         </template>
                     </el-form-item>
 
@@ -186,7 +186,7 @@
                             {{item.option3}}
                         </template>
                         <template v-if="item.option3.search('https')!==-1">
-                            <img :src="item.option3" style="height: 80px;width: 150px;overflow: hidden"/>
+                            <img :src="item.option3" style="overflow: hidden"/>
                         </template>
                     </el-form-item>
 
@@ -195,7 +195,7 @@
                             {{item.option4}}
                         </template>
                         <template v-if="item.option4.search('https')!==-1">
-                            <img :src="item.option4" style="height: 80px;width: 150px;overflow: hidden"/>
+                            <img :src="item.option4" style="overflow: hidden"/>
                         </template>
                     </el-form-item>
                 </template>

@@ -214,7 +214,7 @@
 					</el-form-item>
 				</template>
 				<template v-else-if="strategy.mode === '3'">
-					<el-form-item label="选择章节">
+					<el-form-item label="选择章节" >
 						<el-select v-model="chapterid" @change="questionOption">
 							<el-option
 								v-for="item in chapter_list"
@@ -224,14 +224,21 @@
 							</el-option>
 						</el-select>
 					</el-form-item>
+
+                    <el-form-item label="筛选题目">
+                        <el-input v-model="question" style="width: 63%"/>
+                    </el-form-item>
+
 					<el-form-item label="选择题目">
-						<el-select multiple filterable v-model="strategy.questionids">
+						<el-select multiple filterable v-model="strategy.questionids" @click="questionOption">
 							<el-option
 								v-for="item in question_list"
+                                v-if="item.name.search(question)!==-1"
 								:key="item.id"
 								:label="item.name"
 								:value="item.id">
 							</el-option>
+
 						</el-select>
 					</el-form-item>
 				</template>
@@ -275,7 +282,8 @@ export default {
 			course_list: '',
 			chapter_list: '',
 			question_list: '',
-			chapterid: ''
+			chapterid: '',
+            question:''
         };
 	},
 	created() {
@@ -309,7 +317,8 @@ export default {
 			getChapterList({id: this.paper.courseid}).then(res=>{ this.chapter_list = res })
 		},
 		questionOption(){
-			questionOption({id: this.chapterid,type:this.strategy.type}).then(res=>{ this.question_list = res })
+			questionOption({id: this.chapterid,condition:this.question,type:this.strategy.type}).then(res=>{
+                    this.question_list = res;})
 		},
 		handleSearch() {
             this.$set(this.query, 'pageIndex', 1);
