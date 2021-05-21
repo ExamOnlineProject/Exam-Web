@@ -235,8 +235,9 @@
 								v-for="item in question_list"
                                 v-if="item.name.search(question)!==-1"
 								:key="item.id"
-								:label="item.name"
 								:value="item.id">
+                                <label v-if="item.name.search('https')===-1">{{item.name}}</label>
+                                <img v-if="item.name.search('https')!==-1" class="img" :src="item.name"  />
 							</el-option>
 
 						</el-select>
@@ -360,3 +361,18 @@ export default {
     }
 };
 </script>
+<style>
+.img{
+    height:32px;
+    width: 32px;
+    border: black 1px solid
+}
+
+.img:hover{
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    border: black 1px solid
+}
+</style>

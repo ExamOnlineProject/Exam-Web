@@ -50,15 +50,27 @@
                 <el-table-column type="selection" width="55" align="center"></el-table-column>
                 <el-table-column prop="subjectid" label="ID" width="55" align="center"></el-table-column>
 				<el-table-column prop="type" label="题目类型" width="80" align="center"></el-table-column>
-                <el-table-column prop="content" label="题目">
+                <el-table-column label="题目">
+                    <template  slot-scope="content" >
+                        <img v-if="content.row.content.search('https')!==-1" class="this_img" :src="content.row.content" />
+                        <label v-if="content.row.content.search('https')===-1">{{content.row.content}}</label>
+                    </template>
                 </el-table-column>
 				<el-table-column label="选项" align="center">
                     <template slot-scope="scope">
                         <span v-if="scope.row.type === '选择'">
-                            <el-tag>A</el-tag> {{ scope.row.option1 }}
-                            <el-tag>B</el-tag> {{ scope.row.option2 }}
-                            <el-tag>C</el-tag> {{ scope.row.option3 }}
-                            <el-tag>D</el-tag> {{ scope.row.option4 }}
+                            <el-tag>A</el-tag>
+                                <img v-if="scope.row.option1.search('https')!==-1" class="this_img" :src="scope.row.option1" />
+                                 <label v-if="scope.row.option1.search('https')===-1">{{scope.row.option1}}</label>
+                            <el-tag>B</el-tag>
+                                <img v-if="scope.row.option2.search('https')!==-1"  class="this_img":src="scope.row.option2" />
+                                 <label v-if="scope.row.option2.search('https')===-1">{{scope.row.option2}}</label>
+                            <el-tag>C</el-tag>
+                                <img v-if="scope.row.option3.search('https')!==-1"  class="this_img":src="scope.row.option3" />
+                                 <label v-if="scope.row.option3.search('https')===-1">{{scope.row.option3}}</label>
+                            <el-tag>D</el-tag>
+                                <img v-if="scope.row.option4.search('https')!==-1"  class="this_img":src="scope.row.option4" />
+                                 <label v-if="scope.row.option4.search('https')===-1">{{scope.row.option4}}</label>
                         </span>
                         <span v-else-if="scope.row.type === '判断'">
                             对(A)/错(B)
@@ -554,5 +566,17 @@ export default {
     margin: auto;
     width: 40px;
     height: 40px;
+}
+
+.this_img{
+    max-height:99px;
+    max-width: 166px;
+    border: black 1px solid
+}
+
+.this_img:hover{
+    height: 100%;
+    max-width: 100%;
+    border: black 1px solid
 }
 </style>
