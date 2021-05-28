@@ -48,7 +48,7 @@ export default new Router({
 				{
 				    path: '/add_paper',
 				    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/add_paper.vue'),
-				    meta: { title: '新增考试' }
+				    meta: { title: '组卷' }
                 },
                 {
 				    path: '/attend_class_mgr',
@@ -104,7 +104,7 @@ export default new Router({
 				{
 				    path: '/exam_record',
 				    component: () => import(/* webpackChunkName: "tabs" */ '../components/page/my_page/exam_record.vue'),
-				    meta: { title: '考试记录' }
+				    meta: { title: '成绩记录' }
 				},
 				{
 				    path: '/exam_analysis',

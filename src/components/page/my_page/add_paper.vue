@@ -5,7 +5,7 @@
                 <el-breadcrumb-item>
                     <i class="el-icon-lx-calendar"></i> 添加
                 </el-breadcrumb-item>
-                <el-breadcrumb-item>添加考试</el-breadcrumb-item>
+                <el-breadcrumb-item>组卷</el-breadcrumb-item>
             </el-breadcrumb>
         </div>
         <div class="container">
@@ -30,10 +30,12 @@
                             <el-radio label="2">霸屏模式</el-radio>
                         </el-radio-group>
                     </el-form-item>
-					<el-form-item label="监控">
+					<el-form-item label="监控录制方式">
                         <el-radio-group v-model="paper.ismonitor">
-                            <el-radio label="1">开启</el-radio>
-                            <el-radio label="2">关闭</el-radio>
+                            <el-radio label="0">不录制</el-radio>
+                            <el-radio label="1">仅摄像头</el-radio>
+                            <el-radio label="2">仅桌面</el-radio>
+                            <el-radio label="3">摄像头+桌面双录制</el-radio>
                         </el-radio-group>
                     </el-form-item>
 					<el-form-item label="组卷策略">
